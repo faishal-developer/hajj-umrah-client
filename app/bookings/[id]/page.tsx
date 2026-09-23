@@ -3,13 +3,12 @@
 import React, { useEffect, useState, use } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Booking, Installment, Payment, Cancellation } from '@/types/api';
+import { Booking, Installment, Payment } from '@/types/api';
 import { api } from '@/lib/api-client';
 import { useAuth } from '@/lib/auth-context';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { CountdownTimer } from '@/components/countdown-timer';
 import { formatCurrency, formatDate, formatDateTime, generateUUID } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -20,15 +19,11 @@ import {
   Lock,
   Users,
   AlertTriangle,
-  CheckCircle2,
   Clock,
-  ShieldCheck,
-  Building,
   RefreshCw,
-  XCircle,
-  FileText,
   Loader2,
 } from 'lucide-react';
+import { CancellationModal } from './_components/cancellation-modal';
 
 export default function BookingDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -39,6 +34,7 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
   const [installments, setInstallments] = useState<Installment[]>([]);
   const [payments, setPayments] = useState<Payment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   // Cancellation Modal State
   const [showCancelModal, setShowCancelModal] = useState(false);
@@ -47,33 +43,75 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
   const [cancelReason, setCancelReason] = useState('');
   const [isCancelling, setIsCancelling] = useState(false);
 
-  const loadBookingData = async () => {
+  const loadBookingData = async (silent = false) => {
     try {
-      setIsLoading(true);
-      const res = await api.get<Booking>(`/bookings/${id}`);
-      setBooking(res.data);
+      if (!silent) setIsLoading(true);
+      else setIsRefreshing(true);
 
-      // Load installments
+      const res = await api.get<Booking>(`/bookings/${id}`);
+      const bookingData = res.data;
+      setBooking(bookingData);
+
+      // 1. Load installments (from dedicated endpoint or nested booking.installments)
       try {
-        const instRes = await api.get<Installment[]>(`/bookings/${id}/installments`);
-        setInstallments(instRes.data || []);
+        const instRes = await api.get<Installment[] | { data: Installment[] }>(
+          `/bookings/${id}/installments`
+        );
+        const fetchedInsts = Array.isArray(instRes.data)
+          ? instRes.data
+          : Array.isArray((instRes.data as any)?.data)
+          ? (instRes.data as any).data
+          : [];
+
+        if (fetchedInsts.length > 0) {
+          setInstallments(fetchedInsts);
+        } else if (
+          Array.isArray(bookingData?.installments) &&
+          bookingData.installments.length > 0
+        ) {
+          setInstallments(bookingData.installments);
+        } else {
+          setInstallments([]);
+        }
       } catch {
-        // Fallback
+        if (Array.isArray(bookingData?.installments)) {
+          setInstallments(bookingData.installments);
+        }
       }
 
-      // Load payments
+      // 2. Load payments (check user payments filtered by bookingId or nested booking.payments)
       try {
-        const payRes = await api.get<Payment[]>(`/payments/booking/${id}`);
-        setPayments(payRes.data || []);
+        const payRes = await api.get<Payment[] | { data: Payment[] }>('/payments/me');
+        const allPayments = Array.isArray(payRes.data)
+          ? payRes.data
+          : Array.isArray((payRes.data as any)?.data)
+          ? (payRes.data as any).data
+          : [];
+
+        const bookingPayments = allPayments.filter(
+          (p: any) => p.bookingId === id || p.booking_id === id
+        );
+
+        if (bookingPayments.length > 0) {
+          setPayments(bookingPayments);
+        } else if (Array.isArray((bookingData as any)?.payments)) {
+          setPayments((bookingData as any).payments);
+        } else {
+          setPayments([]);
+        }
       } catch {
-        // Fallback
+        if (Array.isArray((bookingData as any)?.payments)) {
+          setPayments((bookingData as any).payments);
+        }
       }
     } catch (err: any) {
       const title = err.friendly?.title || 'Unable to Load Booking';
-      const desc = err.friendly?.description || err.message || 'Please check your connection and try again.';
+      const desc =
+        err.friendly?.description || err.message || 'Please check your connection and try again.';
       toast.error(title, { description: desc });
     } finally {
       setIsLoading(false);
+      setIsRefreshing(false);
     }
   };
 
@@ -121,7 +159,7 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
 
       setShowCancelModal(false);
       setCancelReason('');
-      loadBookingData();
+      loadBookingData(true);
     } catch (err: any) {
       const errorTitle = err.friendly?.title || 'Cancellation Request Failed';
       const errorDesc =
@@ -159,20 +197,31 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
   }
 
   const isHeld = booking.status === 'HELD' || booking.status === 'PENDING_PAYMENT';
-  const isConfirmed = booking.status === 'CONFIRMED';
   const canCancel = ['HELD', 'PENDING_PAYMENT', 'PARTIALLY_PAID', 'CONFIRMED'].includes(booking.status);
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       {/* Header & Back Link */}
       <div className="space-y-4">
-        <Link
-          href="/bookings"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-emerald-600 transition-colors"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Back to all bookings</span>
-        </Link>
+        <div className="flex items-center justify-between">
+          <Link
+            href="/bookings"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-emerald-600 transition-colors"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Back to all bookings</span>
+          </Link>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => loadBookingData(true)}
+            disabled={isRefreshing}
+            className="gap-1.5 text-xs text-slate-500 hover:text-emerald-600"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
+            <span>Refresh</span>
+          </Button>
+        </div>
 
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
           <div className="space-y-1">
@@ -264,7 +313,7 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
             <div>
               <span className="text-slate-600 dark:text-slate-400 block font-medium">Guaranteed Unit Rate</span>
               <span className="font-bold text-slate-900 dark:text-white text-sm">
-                {formatCurrency(booking.unitPriceSnapshot)}
+                {formatCurrency(Number(booking.unitPriceSnapshot) || 0)}
               </span>
             </div>
             <div>
@@ -276,7 +325,7 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
             <div>
               <span className="text-slate-600 dark:text-slate-400 block font-medium">Total Booking Amount</span>
               <span className="font-extrabold text-emerald-700 dark:text-emerald-400 text-sm">
-                {formatCurrency(booking.totalAmount)}
+                {formatCurrency(Number(booking.totalAmount) || 0)}
               </span>
             </div>
           </div>
@@ -369,35 +418,53 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                    {installments.map((inst) => (
-                      <tr key={inst.id}>
-                        <td className="py-3 px-3 font-semibold text-slate-900 dark:text-white">
-                          Installment {inst.sequence}
-                        </td>
-                        <td className="py-3 px-3 text-slate-600 dark:text-slate-300">
-                          {formatDate(inst.dueDate)}
-                        </td>
-                        <td className="py-3 px-3 font-bold text-slate-900 dark:text-white">
-                          {formatCurrency(inst.amountDue)}
-                        </td>
-                        <td className="py-3 px-3 text-emerald-700 dark:text-emerald-400 font-medium">
-                          {formatCurrency(inst.amountPaid)}
-                        </td>
-                        <td className="py-3 px-3">
-                          <Badge
-                            variant={
-                              inst.status === 'PAID'
-                                ? 'success'
-                                : inst.status === 'OVERDUE'
-                                ? 'danger'
-                                : 'warning'
-                            }
-                          >
-                            {inst.status}
-                          </Badge>
-                        </td>
-                      </tr>
-                    ))}
+                    {installments.map((inst, index) => {
+                      const seq =
+                        inst.sequence ??
+                        (inst as any).installmentNumber ??
+                        (inst as any).sequenceNumber ??
+                        index + 1;
+                      const due = Number(
+                        inst.amountDue ?? (inst as any).amount_due ?? (inst as any).amount ?? 0
+                      );
+                      const paid = Number(
+                        inst.amountPaid ?? (inst as any).amount_paid ?? (inst as any).paidAmount ?? 0
+                      );
+                      const status = inst.status ?? (inst as any).paymentStatus ?? 'PENDING';
+                      const dueDate = inst.dueDate ?? (inst as any).due_date;
+
+                      return (
+                        <tr key={inst.id || `inst-${index}`}>
+                          <td className="py-3 px-3 font-semibold text-slate-900 dark:text-white">
+                            Installment {seq}
+                          </td>
+                          <td className="py-3 px-3 text-slate-600 dark:text-slate-300">
+                            {formatDate(dueDate)}
+                          </td>
+                          <td className="py-3 px-3 font-bold text-slate-900 dark:text-white">
+                            {formatCurrency(due)}
+                          </td>
+                          <td className="py-3 px-3 text-emerald-700 dark:text-emerald-400 font-medium">
+                            {formatCurrency(paid)}
+                          </td>
+                          <td className="py-3 px-3">
+                            <Badge
+                              variant={
+                                status === 'PAID'
+                                  ? 'success'
+                                  : status === 'OVERDUE'
+                                  ? 'danger'
+                                  : status === 'PARTIAL'
+                                  ? 'warning'
+                                  : 'warning'
+                              }
+                            >
+                              {status}
+                            </Badge>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -434,11 +501,11 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
                       </Badge>
                     </div>
                     <span className="text-[11px] text-slate-400">
-                      Trx ID: {p.gatewayTransactionId || p.id} · {formatDateTime(p.createdAt)}
+                      Trx ID: {p.gatewayTransactionId || (p as any).gateway_transaction_id || p.id} · {formatDateTime(p.createdAt || (p as any).created_at)}
                     </span>
                   </div>
                   <div className="text-right font-extrabold text-sm text-slate-900 dark:text-white">
-                    {formatCurrency(p.amount, p.currency)}
+                    {formatCurrency(Number(p.amount) || 0, p.currency || 'BDT')}
                   </div>
                 </div>
               ))}
@@ -450,57 +517,15 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
       </Card>
 
       {/* Cancellation Modal Dialog */}
-      {showCancelModal && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 max-w-md w-full p-6 space-y-4 shadow-2xl">
-            <div className="flex items-center justify-between">
-              <h3 className="font-bold text-lg text-slate-900 dark:text-white">
-                {cancelType === 'FULL' ? 'Request Booking Cancellation' : 'Cancel Pilgrim Reservation'}
-              </h3>
-              <button
-                onClick={() => setShowCancelModal(false)}
-                className="text-slate-400 hover:text-slate-600"
-                aria-label="Close dialog"
-              >
-                ✕
-              </button>
-            </div>
-
-            <p className="text-xs text-slate-500">
-              {cancelType === 'FULL'
-                ? 'This will submit a cancellation request for your entire booking reservation.'
-                : 'This will remove the selected pilgrim from this reservation.'}
-            </p>
-
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                Reason for Cancellation*
-              </label>
-              <textarea
-                rows={3}
-                placeholder="Please share the reason for your cancellation request..."
-                value={cancelReason}
-                onChange={(e) => setCancelReason(e.target.value)}
-                className="w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 p-3 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
-              />
-            </div>
-
-            <div className="flex justify-end gap-2 pt-2">
-              <Button variant="outline" size="sm" onClick={() => setShowCancelModal(false)}>
-                Keep Reservation
-              </Button>
-              <Button
-                variant="danger"
-                size="sm"
-                onClick={handleCancelSubmit}
-                isLoading={isCancelling}
-              >
-                Confirm Cancellation
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
+      <CancellationModal
+        isOpen={showCancelModal}
+        cancelType={cancelType}
+        cancelReason={cancelReason}
+        isCancelling={isCancelling}
+        onReasonChange={setCancelReason}
+        onClose={() => setShowCancelModal(false)}
+        onSubmit={handleCancelSubmit}
+      />
     </div>
   );
 }

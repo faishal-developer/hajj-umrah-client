@@ -87,7 +87,15 @@ function PaymentCheckoutContent() {
         { idempotencyKey }
       );
 
-      const trxId = initiateRes.data?.gatewayTransactionId || `TRX-${Date.now()}`;
+      const paymentId =
+        initiateRes.data?.paymentId ||
+        (initiateRes.data as any)?.id ||
+        (initiateRes.data as any)?.payment_id;
+      const trxId =
+        initiateRes.data?.gatewayTransactionId ||
+        (initiateRes.data as any)?.gateway_transaction_id ||
+        (initiateRes.data as any)?.transactionId ||
+        `TRX-${Date.now()}`;
 
       // Step 2: Trigger Simulated Gateway Webhook to verify payment on backend
       const webhookProviderSlug = selectedProvider.toLowerCase();
@@ -97,20 +105,25 @@ function PaymentCheckoutContent() {
           {
             event_id: `evt_${Date.now()}`,
             transaction_id: trxId,
+            transactionId: trxId,
+            payment_id: paymentId,
+            paymentId: paymentId,
             status: 'SUCCESS',
             amount: payableAmount,
             booking_id: booking.id,
+            bookingId: booking.id,
           },
           { requiresAuth: false }
         );
-      } catch {
-        // Continue
+      } catch (webhookErr) {
+        console.warn('Simulated webhook notification error:', webhookErr);
       }
 
       toast.success('Payment Completed Successfully!', {
         description: `Your ${selectedProvider} payment of ${formatCurrency(payableAmount)} has been verified. Your journey is confirmed.`,
       });
 
+      router.refresh();
       router.push(`/bookings/${booking.id}`);
     } catch (err: any) {
       const errorTitle = err.friendly?.title || 'Payment Could Not Be Completed';
