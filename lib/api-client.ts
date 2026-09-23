@@ -3,7 +3,7 @@ import { generateUUID } from './utils';
 import { translateErrorMessage, FriendlyError } from './error-translator';
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'https://hajj-umrah-backend.vercel.app/api/v1';
+  process.env.NEXT_PUBLIC_API_URL?.trim() || 'https://hajj-umrah-backend.vercel.app/api/v1';
 
 export class ApiClientError extends Error {
   statusCode: number;
