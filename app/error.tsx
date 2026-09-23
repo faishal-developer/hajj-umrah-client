@@ -4,6 +4,7 @@ import * as React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
+import { translateErrorMessage } from '@/lib/error-translator';
 
 export default function Error({
   error,
@@ -17,6 +18,8 @@ export default function Error({
     console.error('Unhandled Application Error:', error);
   }, [error]);
 
+  const friendly = translateErrorMessage(error?.message || '');
+
   return (
     <div className="min-h-[60vh] flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full text-center space-y-6 bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xl">
@@ -26,10 +29,10 @@ export default function Error({
 
         <div className="space-y-2">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
-            Something Went Wrong
+            {friendly.title || 'Something Went Wrong'}
           </h2>
           <p className="text-sm text-slate-600 dark:text-slate-400">
-            {error?.message ||
+            {friendly.description ||
               'We encountered an unexpected problem while loading this page. Please try again or return home.'}
           </p>
           {error?.digest && (

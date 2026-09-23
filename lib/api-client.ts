@@ -1,5 +1,6 @@
 import { ApiResponse } from '@/types/api';
 import { generateUUID } from './utils';
+import { translateErrorMessage, FriendlyError } from './error-translator';
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || 'https://hajj-umrah-backend.vercel.app/api/v1';
@@ -8,13 +9,16 @@ export class ApiClientError extends Error {
   statusCode: number;
   code?: string;
   error?: string;
+  friendly: FriendlyError;
 
   constructor(message: string, statusCode: number = 500, code?: string, error?: string) {
-    super(message);
+    const friendly = translateErrorMessage(message, statusCode, code);
+    super(friendly.description);
     this.name = 'ApiClientError';
     this.statusCode = statusCode;
     this.code = code;
     this.error = error;
+    this.friendly = friendly;
   }
 }
 

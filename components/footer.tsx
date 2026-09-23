@@ -14,11 +14,11 @@ export function Footer() {
             </div>
             <div>
               <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-                100% Price Freeze Guarantee
+                Guaranteed Rate Protection
               </h4>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                Your booked rate is locked indefinitely. Future package price increases will never
-                affect confirmed bookings.
+                Your booked rate is locked indefinitely. Future package price changes will never
+                affect your confirmed reservation.
               </p>
             </div>
           </div>
@@ -29,11 +29,11 @@ export function Footer() {
             </div>
             <div>
               <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-                Zero Overselling Row-Locking
+                Guaranteed Seat Reservation
               </h4>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                Transactional row-level concurrency ensures your held seat is protected from race
-                conditions.
+                Our real-time reservation system guarantees that once you hold a seat, it is reserved
+                exclusively for you during checkout.
               </p>
             </div>
           </div>
@@ -44,11 +44,11 @@ export function Footer() {
             </div>
             <div>
               <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-                Flexible Installment Schedules
+                Flexible Payment Options
               </h4>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                Automated payment allocations with grace period tracking and transparent refund
-                auditing.
+                Convenient payment plans with transparent schedules, automated reminders, and clear
+                refund policies.
               </p>
             </div>
           </div>
@@ -59,9 +59,9 @@ export function Footer() {
           <div className="flex items-center gap-2">
             <Moon className="w-4 h-4 text-emerald-600" />
             <span className="font-semibold text-slate-800 dark:text-slate-200">
-              Hajj & Umrah Package Booking Platform
+              Hajj & Umrah Pilgrimage Portal
             </span>
-            <span className="text-slate-400">· Modular Monolith Architecture</span>
+            <span className="text-slate-400">· Trusted Pilgrim Services</span>
           </div>
 
           <div className="flex items-center gap-6">
@@ -71,7 +71,7 @@ export function Footer() {
             <Link href="/bookings" className="hover:text-emerald-600 transition-colors">
               My Bookings
             </Link>
-            <span className="text-slate-400">Backend: NestJS + PostgreSQL</span>
+            <span className="text-slate-400">Official Pilgrim Portal</span>
           </div>
         </div>
       </div>

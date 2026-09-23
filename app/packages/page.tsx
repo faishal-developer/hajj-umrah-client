@@ -71,7 +71,7 @@ export default function PackagesPage() {
         </h1>
         <p className="text-sm text-slate-600 dark:text-slate-400 max-w-3xl">
           Browse verified spiritual journeys with real-time seat availability, transparent tier
-          quotas, and guaranteed price freezing on booking creation.
+          options, and guaranteed rate protection for all reservations.
         </p>
       </div>
 
@@ -83,7 +83,7 @@ export default function PackagesPage() {
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5 pointer-events-none" />
             <input
               type="text"
-              placeholder="Search package name, city, or features..."
+              placeholder="Search by package name, holy city, or amenities..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="flex h-11 w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 pl-10 pr-4 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 transition-all"

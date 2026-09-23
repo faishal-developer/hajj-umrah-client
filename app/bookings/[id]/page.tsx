@@ -69,7 +69,9 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
         // Fallback
       }
     } catch (err: any) {
-      toast.error('Failed to load booking details', { description: err.message });
+      const title = err.friendly?.title || 'Unable to Load Booking';
+      const desc = err.friendly?.description || err.message || 'Please check your connection and try again.';
+      toast.error(title, { description: desc });
     } finally {
       setIsLoading(false);
     }
@@ -83,11 +85,13 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
         loadBookingData();
       }
     }
-  }, [id, isAuthenticated, isAuthLoading]);
+  }, [id, isAuthenticated, isAuthLoading, router]);
 
   const handleCancelSubmit = async () => {
     if (!cancelReason.trim()) {
-      toast.error('Please specify a cancellation reason.');
+      toast.error('Reason Required', {
+        description: 'Please provide a brief reason for the cancellation request.',
+      });
       return;
     }
 
@@ -101,21 +105,30 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
           { reason: cancelReason },
           { idempotencyKey }
         );
-        toast.success('Booking cancellation requested');
+        toast.success('Cancellation Request Submitted', {
+          description: 'Your booking cancellation request has been received and is being processed.',
+        });
       } else if (cancelPilgrimId) {
         await api.post(
           `/bookings/${id}/pilgrims/${cancelPilgrimId}/cancel`,
           { reason: cancelReason },
           { idempotencyKey }
         );
-        toast.success('Pilgrim cancellation requested');
+        toast.success('Pilgrim Cancellation Submitted', {
+          description: 'The pilgrim cancellation request has been received.',
+        });
       }
 
       setShowCancelModal(false);
       setCancelReason('');
       loadBookingData();
     } catch (err: any) {
-      toast.error('Cancellation failed', { description: err.message });
+      const errorTitle = err.friendly?.title || 'Cancellation Request Failed';
+      const errorDesc =
+        err.friendly?.description ||
+        err.message ||
+        'We could not submit your cancellation request. Please try again.';
+      toast.error(errorTitle, { description: errorDesc });
     } finally {
       setIsCancelling(false);
     }
@@ -125,7 +138,7 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
     return (
       <div className="max-w-4xl mx-auto py-20 text-center space-y-4">
         <Loader2 className="w-8 h-8 animate-spin text-emerald-600 mx-auto" />
-        <p className="text-sm text-slate-500">Loading booking file #{id.slice(0, 8)}...</p>
+        <p className="text-sm text-slate-500">Retrieving booking #{id.slice(0, 8)}...</p>
       </div>
     );
   }
@@ -232,12 +245,12 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
         </div>
       )}
 
-      {/* Price Freeze Snapshot Details */}
+      {/* Guaranteed Price Protection Details */}
       <Card>
         <CardHeader>
           <CardTitle className="text-base flex items-center gap-2">
             <Lock className="w-4 h-4 text-emerald-600" />
-            <span>Immutable Price Snapshot</span>
+            <span>Guaranteed Price Protection</span>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -249,7 +262,7 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
               </span>
             </div>
             <div>
-              <span className="text-slate-600 dark:text-slate-400 block font-medium">Frozen Unit Price</span>
+              <span className="text-slate-600 dark:text-slate-400 block font-medium">Guaranteed Unit Rate</span>
               <span className="font-bold text-slate-900 dark:text-white text-sm">
                 {formatCurrency(booking.unitPriceSnapshot)}
               </span>
@@ -442,11 +455,12 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
           <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 max-w-md w-full p-6 space-y-4 shadow-2xl">
             <div className="flex items-center justify-between">
               <h3 className="font-bold text-lg text-slate-900 dark:text-white">
-                {cancelType === 'FULL' ? 'Cancel Entire Booking' : 'Cancel Individual Pilgrim'}
+                {cancelType === 'FULL' ? 'Request Booking Cancellation' : 'Cancel Pilgrim Reservation'}
               </h3>
               <button
                 onClick={() => setShowCancelModal(false)}
                 className="text-slate-400 hover:text-slate-600"
+                aria-label="Close dialog"
               >
                 ✕
               </button>
@@ -454,17 +468,17 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
 
             <p className="text-xs text-slate-500">
               {cancelType === 'FULL'
-                ? 'This will release all held seats and initiate the formal cancellation workflow.'
-                : 'This will remove the selected pilgrim and release 1 held seat.'}
+                ? 'This will submit a cancellation request for your entire booking reservation.'
+                : 'This will remove the selected pilgrim from this reservation.'}
             </p>
 
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                Cancellation Reason*
+                Reason for Cancellation*
               </label>
               <textarea
                 rows={3}
-                placeholder="Please state the reason for cancellation..."
+                placeholder="Please share the reason for your cancellation request..."
                 value={cancelReason}
                 onChange={(e) => setCancelReason(e.target.value)}
                 className="w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 p-3 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
@@ -473,7 +487,7 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
 
             <div className="flex justify-end gap-2 pt-2">
               <Button variant="outline" size="sm" onClick={() => setShowCancelModal(false)}>
-                Go Back
+                Keep Reservation
               </Button>
               <Button
                 variant="danger"
@@ -481,7 +495,7 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
                 onClick={handleCancelSubmit}
                 isLoading={isCancelling}
               >
-                Submit Cancellation
+                Confirm Cancellation
               </Button>
             </div>
           </div>

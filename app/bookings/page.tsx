@@ -57,12 +57,12 @@ export default function MyBookingsPage() {
     string,
     { label: string; variant: 'default' | 'held' | 'success' | 'warning' | 'danger' | 'secondary' }
   > = {
-    HELD: { label: 'Seat Held (Pending Payment)', variant: 'held' },
-    PENDING_PAYMENT: { label: 'Pending Payment', variant: 'warning' },
+    HELD: { label: 'Seats Reserved (Awaiting Payment)', variant: 'held' },
+    PENDING_PAYMENT: { label: 'Awaiting Payment', variant: 'warning' },
     PARTIALLY_PAID: { label: 'Partially Paid', variant: 'warning' },
     CONFIRMED: { label: 'Confirmed', variant: 'success' },
-    DEFAULTED: { label: 'Defaulted', variant: 'danger' },
-    EXPIRED: { label: 'Expired', variant: 'danger' },
+    DEFAULTED: { label: 'Payment Overdue', variant: 'danger' },
+    EXPIRED: { label: 'Reservation Expired', variant: 'danger' },
     CANCELLED: { label: 'Cancelled', variant: 'secondary' },
     COMPLETED: { label: 'Completed', variant: 'default' },
   };
@@ -71,7 +71,7 @@ export default function MyBookingsPage() {
     return (
       <div className="max-w-4xl mx-auto py-20 text-center space-y-4">
         <Loader2 className="w-8 h-8 animate-spin text-emerald-600 mx-auto" />
-        <p className="text-sm text-slate-500">Retrieving your pilgrim bookings...</p>
+        <p className="text-sm text-slate-500">Retrieving your pilgrim reservations...</p>
       </div>
     );
   }
@@ -142,17 +142,17 @@ export default function MyBookingsPage() {
                     </div>
                   </div>
 
-                  {/* Middle Row: Pilgrims, Tier, Price Snapshot */}
+                  {/* Middle Row: Pilgrims, Tier, Price */}
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
                     <div>
-                      <span className="text-slate-600 dark:text-slate-400 block font-medium">Tier Snapshot</span>
+                      <span className="text-slate-600 dark:text-slate-400 block font-medium">Package Tier</span>
                       <span className="font-semibold text-slate-900 dark:text-slate-100">
                         {bkg.tierNameSnapshot || 'Standard'}
                       </span>
                     </div>
 
                     <div>
-                      <span className="text-slate-600 dark:text-slate-400 block font-medium">Group Pilgrims</span>
+                      <span className="text-slate-600 dark:text-slate-400 block font-medium">Pilgrim Group</span>
                       <span className="font-semibold text-slate-900 dark:text-slate-100">
                         {bkg.pilgrims?.length || 1} Person(s)
                       </span>
@@ -161,7 +161,7 @@ export default function MyBookingsPage() {
                     <div>
                       <span className="text-slate-600 dark:text-slate-400 block font-medium">Payment Mode</span>
                       <span className="font-semibold text-slate-900 dark:text-slate-100">
-                        {bkg.paymentMode === 'FULL' ? 'Full Payment' : 'Installments'}
+                        {bkg.paymentMode === 'FULL' ? 'Full Payment' : 'Installment Plan'}
                       </span>
                     </div>
 
@@ -177,7 +177,7 @@ export default function MyBookingsPage() {
                 {/* Footer Actions */}
                 <div className="flex items-center justify-between p-4 bg-slate-50/70 dark:bg-slate-900/60 border-t border-slate-100 dark:border-slate-800">
                   <span className="text-[11px] text-slate-400">
-                    Booked on {formatDate(bkg.createdAt)}
+                    Reserved on {formatDate(bkg.createdAt)}
                   </span>
 
                   <div className="flex items-center gap-2">
@@ -207,11 +207,11 @@ export default function MyBookingsPage() {
           <BookOpen className="w-12 h-12 mx-auto text-slate-400" />
           <div className="space-y-1">
             <h3 className="text-base font-bold text-slate-800 dark:text-slate-200">
-              No Bookings Created Yet
+              No Bookings Found
             </h3>
             <p className="text-xs text-slate-500 max-w-sm mx-auto">
-              You haven&apos;t reserved any pilgrimage packages yet. Explore our verified catalog to get
-              started.
+              You haven&apos;t reserved any pilgrimage packages yet. Explore our verified catalog to begin
+              your journey.
             </p>
           </div>
           <Link href="/packages">

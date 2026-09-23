@@ -65,8 +65,8 @@ export default function HomePage() {
           </h1>
 
           <p className="text-sm sm:text-lg text-slate-300 font-normal leading-relaxed">
-            Transparent pricing with guaranteed price freezes, concurrency-safe seat reservations,
-            and automated installment payment schedules designed for discerning pilgrims.
+            Transparent pricing with guaranteed rate protection, guaranteed seat reservations,
+            and flexible installment payment schedules designed for discerning pilgrims.
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-2">
@@ -93,15 +93,15 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-6 border-t border-white/10 text-xs text-slate-300 font-medium">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Immutable Price Freezes</span>
+              <span>Guaranteed Rate Protection</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Dual-Control Security</span>
+              <span>Verified & Secure Booking</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Zero Seat Overselling</span>
+              <span>Real-Time Seat Availability</span>
             </div>
           </div>
         </div>
@@ -196,8 +196,7 @@ export default function HomePage() {
             How Your Booking Journey Works
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-            A frictionless 4-step process backed by strict database guarantees and automated
-            installment tracking.
+            A seamless 4-step reservation process with guaranteed pricing and flexible installment tracking.
           </p>
         </div>
 
@@ -210,8 +209,7 @@ export default function HomePage() {
               Choose Package & Tier
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-              Explore packages and select Economy, Standard, or VIP tier matching your budget and
-              comfort preference.
+              Explore verified packages and select the tier that matches your preferences and budget.
             </p>
           </div>
 
@@ -223,8 +221,7 @@ export default function HomePage() {
               Add Group Pilgrims
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-              Add individual or group pilgrims with passport and date-of-birth details in one single
-              booking.
+              Enter pilgrim details and passport information for yourself and travel companions.
             </p>
           </div>
 
@@ -236,8 +233,7 @@ export default function HomePage() {
               Instant Seat Hold & Price Lock
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-              Seats are temporarily held for 30–60 minutes. Your unit price is permanently frozen in
-              time.
+              Your seats are held exclusively for you with locked rates while you review and checkout.
             </p>
           </div>
 
@@ -246,11 +242,10 @@ export default function HomePage() {
               4
             </div>
             <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
-              Pay in Full or Installments
+              Flexible Payment Options
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-              Complete checkout online or follow your installment schedule with automated oldest-due
-              allocations.
+              Complete your payment in full or spread payments across convenient scheduled installments.
             </p>
           </div>
         </div>

@@ -48,7 +48,7 @@ export function CountdownTimer({ expiresAt, onExpire, className }: CountdownTime
         )}
       >
         <AlertTriangle className="w-4 h-4 text-rose-600 dark:text-rose-400" />
-        <span>Seat hold expired</span>
+        <span>Reservation window expired</span>
       </div>
     );
   }
@@ -67,7 +67,7 @@ export function CountdownTimer({ expiresAt, onExpire, className }: CountdownTime
     >
       <Clock className="w-3.5 h-3.5 text-current" />
       <span>
-        Hold expires in:{' '}
+        Time remaining to checkout:{' '}
         <strong className="font-mono text-sm">
           {String(timeLeft.minutes).padStart(2, '0')}:{String(timeLeft.seconds).padStart(2, '0')}
         </strong>

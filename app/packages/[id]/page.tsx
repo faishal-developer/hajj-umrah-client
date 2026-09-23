@@ -114,7 +114,7 @@ export default function PackageDetailPage({ params }: { params: Promise<{ id: st
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant={typeBadgeVariant[type] || 'default'}>{type.replace('_', ' ')}</Badge>
           <Badge variant="outline">Verified Journey</Badge>
-          <Badge variant="success">Price Freeze Protected</Badge>
+          <Badge variant="success">Guaranteed Rate Protection</Badge>
         </div>
 
         <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
@@ -167,8 +167,8 @@ export default function PackageDetailPage({ params }: { params: Promise<{ id: st
           <div className="space-y-1">
             <h2 className="text-xl font-bold text-slate-900 dark:text-white">Select Pricing Tier</h2>
             <p className="text-xs text-slate-500">
-              Choose your preferred tier. Each tier features dedicated seat quota and frozen price
-              snapshots.
+              Choose your preferred tier. Each tier features dedicated seat allocations and guaranteed
+              rate protection.
             </p>
           </div>
 
@@ -297,11 +297,11 @@ export default function PackageDetailPage({ params }: { params: Promise<{ id: st
               <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-[11px] text-amber-900 dark:text-amber-200 space-y-1">
                 <div className="flex items-center gap-1.5 font-bold">
                   <Lock className="w-3.5 h-3.5 text-amber-600" />
-                  <span>Price Freeze Guarantee</span>
+                  <span>Guaranteed Rate Protection</span>
                 </div>
                 <p>
-                  Upon initiating booking, your selected unit price is locked. You can add multiple
-                  pilgrims on the next step.
+                  When you initiate your reservation, your package rate is locked. You can add family
+                  members or group pilgrims on the next step.
                 </p>
               </div>
 

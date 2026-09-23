@@ -95,7 +95,9 @@ function BookingCreationContent() {
           }
         }
       } catch (err: any) {
-        toast.error('Failed to load package data', { description: err.message });
+        const title = err.friendly?.title || 'Unable to Load Package';
+        const desc = err.friendly?.description || err.message || 'Please check your connection and try again.';
+        toast.error(title, { description: desc });
       } finally {
         setIsLoadingPackage(false);
       }
@@ -109,7 +111,9 @@ function BookingCreationContent() {
 
   const handleAddPilgrim = () => {
     if (pilgrims.length >= 10) {
-      toast.warning('Maximum 10 pilgrims per booking transaction.');
+      toast.warning('Group Limit Reached', {
+        description: 'Up to 10 pilgrims can be included in a single reservation.',
+      });
       return;
     }
     setPilgrims([
@@ -126,7 +130,9 @@ function BookingCreationContent() {
 
   const handleRemovePilgrim = (index: number) => {
     if (pilgrims.length <= 1) {
-      toast.error('At least one pilgrim is required.');
+      toast.error('Pilgrim Required', {
+        description: 'At least one pilgrim must be included in the reservation.',
+      });
       return;
     }
     setPilgrims(pilgrims.filter((_, i) => i !== index));
@@ -164,13 +170,17 @@ function BookingCreationContent() {
   const handleNextStep = () => {
     if (currentStep === 1) {
       if (!selectedTier) {
-        toast.error('Please select a package tier.');
+        toast.error('Tier Selection Required', {
+          description: 'Please select a package tier to proceed.',
+        });
         return;
       }
       setCurrentStep(2);
     } else if (currentStep === 2) {
       if (!validatePilgrims()) {
-        toast.error('Please fix the pilgrim details errors before proceeding.');
+        toast.error('Incomplete Details', {
+          description: 'Please check the highlighted pilgrim details before continuing.',
+        });
         return;
       }
       setCurrentStep(3);
@@ -181,15 +191,17 @@ function BookingCreationContent() {
 
   const handleSubmitBooking = async () => {
     if (!isAuthenticated) {
-      toast.info('Please sign in to confirm your booking', {
-        description: 'You will be redirected to the login page.',
+      toast.info('Sign In Required', {
+        description: 'Please sign in to complete your reservation. You will be redirected to the sign-in page.',
       });
       router.push(`/login?redirect=/bookings/create?packageId=${packageIdParam}&tierId=${selectedTierId}`);
       return;
     }
 
     if (!packageData || !selectedTier) {
-      toast.error('Invalid package or tier selection');
+      toast.error('Selection Incomplete', {
+        description: 'Please select a valid package and tier to proceed.',
+      });
       return;
     }
 
@@ -214,21 +226,20 @@ function BookingCreationContent() {
         idempotencyKey,
       });
 
-      toast.success('Seats held successfully!', {
-        description: `Booking #${res.data.id.slice(0, 8)} created. Complete payment to confirm.`,
+      toast.success('Seats Reserved Successfully!', {
+        description: `Booking #${res.data.id.slice(0, 8)} created. Please complete payment to confirm your journey.`,
       });
 
       router.push(`/bookings/${res.data.id}`);
     } catch (err: any) {
-      if (err.statusCode === 409) {
-        toast.error('Seat Unavailable', {
-          description: err.message || 'Selected seats have been filled by another user. Please choose another tier.',
-        });
-      } else {
-        toast.error('Booking failed', {
-          description: err.message || 'Could not complete booking reservation.',
-        });
-      }
+      const errorTitle = err.friendly?.title || 'Reservation Could Not Be Completed';
+      const errorDesc =
+        err.friendly?.description ||
+        err.message ||
+        'We were unable to complete your reservation. Please try again.';
+      toast.error(errorTitle, {
+        description: errorDesc,
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -551,7 +562,7 @@ function BookingCreationContent() {
               <div className="flex items-center justify-between p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800">
                 <div>
                   <span className="text-xs text-emerald-800 dark:text-emerald-300 font-medium block">
-                    Total Frozen Price Snapshot
+                    Guaranteed Package Total
                   </span>
                   <span className="text-[11px] text-emerald-600 dark:text-emerald-400">
                     Guaranteed rate for {pilgrims.length} pilgrim(s)
@@ -566,8 +577,8 @@ function BookingCreationContent() {
               <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-amber-50 dark:bg-amber-950/30 text-amber-900 dark:text-amber-200 text-xs border border-amber-200 dark:border-amber-800">
                 <ShieldCheck className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
                 <p>
-                  Upon clicking confirm, your seats will be immediately held via transactional row-locking.
-                  You will have 30–60 minutes to complete checkout before the hold expires.
+                  Once confirmed, your seats will be held exclusively for you. You will have a dedicated
+                  window to complete checkout before the hold expires.
                 </p>
               </div>
             </CardContent>
@@ -584,7 +595,7 @@ function BookingCreationContent() {
                 className="gap-2 shadow-lg font-bold"
               >
                 <Lock className="w-4 h-4" />
-                <span>Confirm & Hold Seats</span>
+                <span>Confirm & Reserve Seats</span>
               </Button>
             </CardFooter>
           </Card>

@@ -47,7 +47,9 @@ function PaymentCheckoutContent() {
         const res = await api.get<Booking>(`/bookings/${bookingId}`);
         setBooking(res.data);
       } catch (err: any) {
-        toast.error('Failed to load booking for payment', { description: err.message });
+        const title = err.friendly?.title || 'Unable to Load Booking';
+        const desc = err.friendly?.description || err.message || 'Please check your connection and try again.';
+        toast.error(title, { description: desc });
       } finally {
         setIsLoading(false);
       }
@@ -105,14 +107,19 @@ function PaymentCheckoutContent() {
         // Continue
       }
 
-      toast.success('Payment authorized successfully!', {
-        description: `Your ${selectedProvider} transaction of ${formatCurrency(payableAmount)} was verified.`,
+      toast.success('Payment Completed Successfully!', {
+        description: `Your ${selectedProvider} payment of ${formatCurrency(payableAmount)} has been verified. Your journey is confirmed.`,
       });
 
       router.push(`/bookings/${booking.id}`);
     } catch (err: any) {
-      toast.error('Payment failed', {
-        description: err.message || 'Could not complete simulated checkout transaction.',
+      const errorTitle = err.friendly?.title || 'Payment Could Not Be Completed';
+      const errorDesc =
+        err.friendly?.description ||
+        err.message ||
+        'Your payment could not be processed. No funds were deducted. Please try again.';
+      toast.error(errorTitle, {
+        description: errorDesc,
       });
     } finally {
       setIsProcessing(false);
@@ -283,11 +290,11 @@ function PaymentCheckoutContent() {
           <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs text-slate-600 dark:text-slate-300 space-y-1">
             <div className="flex items-center gap-1.5 font-bold text-slate-800 dark:text-slate-100">
               <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-              <span>Simulated Payment Gateway</span>
+              <span>Demonstration Sandbox Environment</span>
             </div>
             <p className="text-[11px] text-slate-500">
-              As per assignment architecture specifications, this simulates payment initiation and
-              webhook verification on the live NestJS backend without charging real accounts.
+              This is a secure testing environment. Your booking confirmation and payment will be
+              processed safely without charging real bank accounts or credit cards.
             </p>
           </div>
         </CardContent>
@@ -307,7 +314,7 @@ function PaymentCheckoutContent() {
             className="w-full sm:w-auto gap-2 font-bold shadow-lg"
           >
             <CheckCircle2 className="w-4 h-4" />
-            <span>Simulate Payment & Confirm ({formatCurrency(payableAmount)})</span>
+            <span>Complete Test Payment & Confirm ({formatCurrency(payableAmount)})</span>
           </Button>
         </CardFooter>
       </Card>

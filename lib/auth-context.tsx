@@ -64,12 +64,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       toast.success('Welcome back!', {
-        description: `Signed in as ${res.data.user?.name || email}`,
+        description: `Signed in as ${res.data.user?.name || email}.`,
       });
       return true;
     } catch (error: any) {
-      toast.error('Sign in failed', {
-        description: error.message || 'Please verify your credentials and try again.',
+      const errorTitle = error.friendly?.title || 'Unable to Sign In';
+      const errorDesc = error.friendly?.description || error.message || 'Please check your email and password and try again.';
+      toast.error(errorTitle, {
+        description: errorDesc,
       });
       return false;
     } finally {
@@ -100,13 +102,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         await fetchCurrentUser();
       }
 
-      toast.success('Registration successful!', {
-        description: `Welcome to the Hajj & Umrah Portal, ${name}!`,
+      toast.success('Account Created Successfully!', {
+        description: `Welcome to the Hajj & Umrah Portal, ${name}.`,
       });
       return true;
     } catch (error: any) {
-      toast.error('Registration failed', {
-        description: error.message || 'Could not complete registration.',
+      const errorTitle = error.friendly?.title || 'Registration Incomplete';
+      const errorDesc = error.friendly?.description || error.message || 'We could not create your account. Please review your details and try again.';
+      toast.error(errorTitle, {
+        description: errorDesc,
       });
       return false;
     } finally {
@@ -117,7 +121,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = () => {
     setAuthToken(null);
     setUser(null);
-    toast.info('Logged out successfully');
+    toast.info('Signed Out', {
+      description: 'You have been safely signed out.',
+    });
   };
 
   const refreshProfile = async () => {

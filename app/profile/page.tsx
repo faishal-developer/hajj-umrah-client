@@ -202,25 +202,25 @@ export default function ProfilePage() {
               <ShieldCheck className="w-4 h-4 text-emerald-600" />
               Security & Guarantees
             </CardTitle>
-            <CardDescription>System integrity and booking protection.</CardDescription>
+            <CardDescription>Your booking protection and peace of mind.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3 text-xs text-slate-600 dark:text-slate-400">
             <div className="flex items-start gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
               <Lock className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
               <div>
                 <p className="font-semibold text-slate-900 dark:text-slate-100">
-                  Idempotent Transactions
+                  Payment Protection & Duplicate Prevention
                 </p>
-                <p>All booking creations and payment requests are protected against double charges.</p>
+                <p>All reservations and payments are protected against accidental double charges.</p>
               </div>
             </div>
             <div className="flex items-start gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
               <Sparkles className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
               <div>
                 <p className="font-semibold text-slate-900 dark:text-slate-100">
-                  Guaranteed Price Freeze
+                  Guaranteed Rate Protection
                 </p>
-                <p>When you hold a seat, your package rate is locked for the entire holding window.</p>
+                <p>When you reserve seats, your package rate is locked throughout the booking window.</p>
               </div>
             </div>
           </CardContent>
