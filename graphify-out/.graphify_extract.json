@@ -1,0 +1,1235 @@
+{
+  "nodes": [
+    {
+      "id": "08_schema",
+      "label": "08_SCHEMA.sql",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": null,
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_users",
+      "label": "users",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L100",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_packages",
+      "label": "packages",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L121",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_package_tiers",
+      "label": "package_tiers",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L144",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_bookings",
+      "label": "bookings",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L179",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_booking_pilgrims",
+      "label": "booking_pilgrims",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L213",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_seat_reservations",
+      "label": "seat_reservations",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L233",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_installment_plans",
+      "label": "installment_plans",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L257",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_installments",
+      "label": "installments",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L266",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_payments",
+      "label": "payments",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L292",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_unique_gateway_transaction",
+      "label": "unique_gateway_transaction",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L321",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_payment_gateway_events",
+      "label": "payment_gateway_events",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L325",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_unique_payment_event",
+      "label": "unique_payment_event",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L342",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_payment_allocations",
+      "label": "payment_allocations",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L346",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_manual_payments",
+      "label": "manual_payments",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L364",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_cancellations",
+      "label": "cancellations",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L388",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_cancellation_pilgrims",
+      "label": "cancellation_pilgrims",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L404",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_refunds",
+      "label": "refunds",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L419",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_reconciliation_records",
+      "label": "reconciliation_records",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L440",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_vendors",
+      "label": "vendors",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L462",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_vendor_expenses",
+      "label": "vendor_expenses",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L471",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_inventory_items",
+      "label": "inventory_items",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L496",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_inventory_transactions",
+      "label": "inventory_transactions",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L505",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_audit_logs",
+      "label": "audit_logs",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L526",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_idempotency_records",
+      "label": "idempotency_records",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L552",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_idx_packages_status",
+      "label": "idx_packages_status",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L576",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_idx_packages_departure_date",
+      "label": "idx_packages_departure_date",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L580",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_idx_booking_user",
+      "label": "idx_booking_user",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L584",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_idx_booking_status",
+      "label": "idx_booking_status",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L588",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_idx_payment_booking",
+      "label": "idx_payment_booking",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L592",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_idx_installment_booking",
+      "label": "idx_installment_booking",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L596",
+      "_origin": "ast"
+    },
+    {
+      "id": "08_schema_idx_audit_entity",
+      "label": "idx_audit_entity",
+      "file_type": "code",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L600",
+      "_origin": "ast"
+    },
+    {
+      "id": "admin_frontend_guide_overview",
+      "label": "Admin Frontend Integration Guide",
+      "file_type": "document",
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\ADMIN_FRONTEND_GUIDE.md",
+      "source_location": "L1-L25",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "admin_frontend_guide_package_mgmt",
+      "label": "Admin Package & Tier Endpoints",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\ADMIN_FRONTEND_GUIDE.md",
+      "source_location": "L45-L125",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "admin_frontend_guide_dual_control",
+      "label": "Admin Maker-Checker Dual Control",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\ADMIN_FRONTEND_GUIDE.md",
+      "source_location": "L127-L162",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "admin_frontend_guide_cancellation_refunds",
+      "label": "Admin Cancellation & Refund Processing",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\ADMIN_FRONTEND_GUIDE.md",
+      "source_location": "L164-L180",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "admin_frontend_guide_reconciliation",
+      "label": "Admin Gateway Reconciliation & Batches",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\ADMIN_FRONTEND_GUIDE.md",
+      "source_location": "L182-L215",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "admin_frontend_guide_vendor_expenses",
+      "label": "Admin Multi-Currency Vendor Accounting",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\ADMIN_FRONTEND_GUIDE.md",
+      "source_location": "L217-L252",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "admin_frontend_guide_inventory",
+      "label": "Admin Pilgrim Inventory Tracking",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\ADMIN_FRONTEND_GUIDE.md",
+      "source_location": "L254-L278",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "admin_frontend_guide_audit_logs",
+      "label": "Admin Audit Mutation Trail",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\ADMIN_FRONTEND_GUIDE.md",
+      "source_location": "L280-L305",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "admin_frontend_guide_reports",
+      "label": "Admin Executive Analytics & Reports",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\ADMIN_FRONTEND_GUIDE.md",
+      "source_location": "L307-L335",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "client_frontend_guide_integration",
+      "label": "Client-Side Frontend Integration Guide",
+      "file_type": "document",
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\CLIENT_FRONTEND_GUIDE.md",
+      "source_location": "L1-L47",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "client_frontend_guide_workflows",
+      "label": "Client Pilgrim Workflows & Swagger",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\CLIENT_FRONTEND_GUIDE.md",
+      "source_location": "L49-L72",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "01_project_specification_overview",
+      "label": "Hajj & Umrah Booking System Overview",
+      "file_type": "document",
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\01_PROJECT_SPECIFICATION.md",
+      "source_location": "L1-L16",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "03_system_design_modular_monolith",
+      "label": "Modular Monolith Architecture",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\03_SYSTEM_DESIGN.md",
+      "source_location": "L25-L105",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "03_system_design_row_locking",
+      "label": "Row-Level Locking for Seats",
+      "file_type": "concept",
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\03_SYSTEM_DESIGN.md",
+      "source_location": "L171-L221",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "07_api_specification_rest_overview",
+      "label": "REST API Specification /api/v1",
+      "file_type": "document",
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\07_API_SPECIFICATION.md",
+      "source_location": "L1-L96",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "08_schema",
+      "target": "08_schema_users",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L100",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_packages",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L121",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_package_tiers",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L144",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_package_tiers",
+      "target": "08_schema_packages",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L144",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_bookings",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L179",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_bookings",
+      "target": "08_schema_users",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L179",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_bookings",
+      "target": "08_schema_packages",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L179",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_bookings",
+      "target": "08_schema_package_tiers",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L179",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_booking_pilgrims",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L213",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_booking_pilgrims",
+      "target": "08_schema_bookings",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L213",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_seat_reservations",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L233",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_seat_reservations",
+      "target": "08_schema_bookings",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L233",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_seat_reservations",
+      "target": "08_schema_package_tiers",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L233",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_installment_plans",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L257",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_installments",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L266",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_installments",
+      "target": "08_schema_bookings",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L266",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_payments",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L292",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_payments",
+      "target": "08_schema_bookings",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L292",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_payments",
+      "target": "08_schema_users",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L292",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_payments",
+      "target": "08_schema_users",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L292",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_unique_gateway_transaction",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L321",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_unique_gateway_transaction",
+      "target": "08_schema_payments",
+      "relation": "indexes",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L321",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_payment_gateway_events",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L325",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_unique_payment_event",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L342",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_unique_payment_event",
+      "target": "08_schema_payment_gateway_events",
+      "relation": "indexes",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L342",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_payment_allocations",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L346",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_payment_allocations",
+      "target": "08_schema_payments",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L346",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_payment_allocations",
+      "target": "08_schema_installments",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L346",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_manual_payments",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L364",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_manual_payments",
+      "target": "08_schema_bookings",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L364",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_manual_payments",
+      "target": "08_schema_users",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L364",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_manual_payments",
+      "target": "08_schema_users",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L364",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_cancellations",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L388",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_cancellations",
+      "target": "08_schema_bookings",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L388",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_cancellation_pilgrims",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L404",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_cancellation_pilgrims",
+      "target": "08_schema_cancellations",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L404",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_cancellation_pilgrims",
+      "target": "08_schema_booking_pilgrims",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L404",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_refunds",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L419",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_refunds",
+      "target": "08_schema_bookings",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L419",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_refunds",
+      "target": "08_schema_users",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L419",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_reconciliation_records",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L440",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_reconciliation_records",
+      "target": "08_schema_payments",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L440",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_vendors",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L462",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_vendor_expenses",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L471",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_vendor_expenses",
+      "target": "08_schema_vendors",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L471",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_vendor_expenses",
+      "target": "08_schema_bookings",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L471",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_inventory_items",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L496",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_inventory_transactions",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L505",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_inventory_transactions",
+      "target": "08_schema_inventory_items",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L505",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_inventory_transactions",
+      "target": "08_schema_bookings",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L505",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_audit_logs",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L526",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_audit_logs",
+      "target": "08_schema_users",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L526",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_idempotency_records",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L552",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_idempotency_records",
+      "target": "08_schema_users",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L552",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_idx_packages_status",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L576",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_idx_packages_status",
+      "target": "08_schema_packages",
+      "relation": "indexes",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L576",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_idx_packages_departure_date",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L580",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_idx_packages_departure_date",
+      "target": "08_schema_packages",
+      "relation": "indexes",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L580",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_idx_booking_user",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L584",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_idx_booking_user",
+      "target": "08_schema_bookings",
+      "relation": "indexes",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L584",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_idx_booking_status",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L588",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_idx_booking_status",
+      "target": "08_schema_bookings",
+      "relation": "indexes",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L588",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_idx_payment_booking",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L592",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_idx_payment_booking",
+      "target": "08_schema_payments",
+      "relation": "indexes",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L592",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_idx_installment_booking",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L596",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_idx_installment_booking",
+      "target": "08_schema_installments",
+      "relation": "indexes",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L596",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema",
+      "target": "08_schema_idx_audit_entity",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L600",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "08_schema_idx_audit_entity",
+      "target": "08_schema_audit_logs",
+      "relation": "indexes",
+      "confidence": "EXTRACTED",
+      "source_file": "08_SCHEMA.sql",
+      "source_location": "L600",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "admin_frontend_guide_overview",
+      "target": "admin_frontend_guide_package_mgmt",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\ADMIN_FRONTEND_GUIDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "admin_frontend_guide_overview",
+      "target": "admin_frontend_guide_dual_control",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\ADMIN_FRONTEND_GUIDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "admin_frontend_guide_overview",
+      "target": "admin_frontend_guide_reconciliation",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\ADMIN_FRONTEND_GUIDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "admin_frontend_guide_overview",
+      "target": "admin_frontend_guide_vendor_expenses",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\ADMIN_FRONTEND_GUIDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "admin_frontend_guide_overview",
+      "target": "admin_frontend_guide_inventory",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\ADMIN_FRONTEND_GUIDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "admin_frontend_guide_overview",
+      "target": "admin_frontend_guide_audit_logs",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\ADMIN_FRONTEND_GUIDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "admin_frontend_guide_overview",
+      "target": "admin_frontend_guide_reports",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\ADMIN_FRONTEND_GUIDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "admin_frontend_guide_dual_control",
+      "target": "08_schema_manual_payments",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\ADMIN_FRONTEND_GUIDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "admin_frontend_guide_reconciliation",
+      "target": "08_schema_reconciliation_records",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\ADMIN_FRONTEND_GUIDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "admin_frontend_guide_vendor_expenses",
+      "target": "08_schema_vendor_expenses",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\ADMIN_FRONTEND_GUIDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "admin_frontend_guide_inventory",
+      "target": "08_schema_inventory_transactions",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\ADMIN_FRONTEND_GUIDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "admin_frontend_guide_audit_logs",
+      "target": "08_schema_audit_logs",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\ADMIN_FRONTEND_GUIDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "client_frontend_guide_integration",
+      "target": "client_frontend_guide_workflows",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\CLIENT_FRONTEND_GUIDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "client_frontend_guide_workflows",
+      "target": "08_schema_bookings",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "C:\\Users\\FAISHAL\\OneDrive\\Documents\\GitHub\\hajj-Umrah\\hajj-umrah-client\\docs\\CLIENT_FRONTEND_GUIDE.md",
+      "weight": 1.0
+    }
+  ],
+  "input_tokens": 16000,
+  "output_tokens": 4500
+}

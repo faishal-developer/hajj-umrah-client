@@ -1,0 +1,3512 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/v1": {
+      "get": {
+        "operationId": "AppController_getHello",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Service is running."
+          }
+        },
+        "summary": "Root health/greeting endpoint",
+        "tags": [
+          "Root"
+        ]
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "operationId": "HealthController_check",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Service and database are healthy."
+          },
+          "503": {
+            "description": "Service or database is unhealthy."
+          }
+        },
+        "summary": "Check API and database health status",
+        "tags": [
+          "Health"
+        ]
+      }
+    },
+    "/api/v1/auth/register": {
+      "post": {
+        "operationId": "AuthController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered successfully. Role is always set to USER.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation failed on input parameters."
+          },
+          "409": {
+            "description": "Email is already registered."
+          }
+        },
+        "summary": "Register a new user account",
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User logged in successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials or account suspended."
+          }
+        },
+        "summary": "Authenticate user and return JWT access token",
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "operationId": "AuthController_getMe",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Current user profile returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfileDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid, or expired JWT token."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Retrieve profile of the currently logged-in user",
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/api/v1/packages": {
+      "get": {
+        "description": "Public catalog of published packages with pagination and type filtering.",
+        "operationId": "PackagesController_getPublishedPackages",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number for pagination",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "type",
+            "required": false,
+            "in": "query",
+            "description": "Filter packages by type (e.g. HAJJ or UMRAH)",
+            "schema": {
+              "example": "HAJJ",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of published packages returned."
+          }
+        },
+        "summary": "List published packages",
+        "tags": [
+          "Public Packages"
+        ]
+      }
+    },
+    "/api/v1/packages/{id}": {
+      "get": {
+        "description": "Retrieves public package details and tier pricing/quotas by package UUID.",
+        "operationId": "PackagesController_getPackageDetails",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Package UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Package details with tiers returned."
+          },
+          "404": {
+            "description": "Package not found or not published."
+          }
+        },
+        "summary": "Get published package details",
+        "tags": [
+          "Public Packages"
+        ]
+      }
+    },
+    "/api/v1/admin/packages": {
+      "get": {
+        "description": "Retrieves all packages across all statuses (DRAFT, PUBLISHED, ARCHIVED).",
+        "operationId": "AdminPackagesController_getAllPackages",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number for pagination",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "type",
+            "required": false,
+            "in": "query",
+            "description": "Filter packages by type (e.g. HAJJ or UMRAH)",
+            "schema": {
+              "example": "HAJJ",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Package catalog list returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "List all packages (Admin)",
+        "tags": [
+          "Admin Packages"
+        ]
+      },
+      "post": {
+        "description": "Creates a package in DRAFT status.",
+        "operationId": "AdminPackagesController_createPackage",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePackageDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Package created successfully."
+          },
+          "400": {
+            "description": "Validation failed."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Create a new package",
+        "tags": [
+          "Admin Packages"
+        ]
+      }
+    },
+    "/api/v1/admin/packages/{id}": {
+      "get": {
+        "description": "Retrieves full details of a package regardless of status.",
+        "operationId": "AdminPackagesController_getPackage",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Package UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Package details returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Package not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get package details (Admin)",
+        "tags": [
+          "Admin Packages"
+        ]
+      },
+      "patch": {
+        "description": "Updates package fields using optimistic locking version comparison.",
+        "operationId": "AdminPackagesController_updatePackage",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Package UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePackageDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Package updated successfully."
+          },
+          "400": {
+            "description": "Bad request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Package not found."
+          },
+          "409": {
+            "description": "Version conflict - Package was modified by another transaction."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update package",
+        "tags": [
+          "Admin Packages"
+        ]
+      }
+    },
+    "/api/v1/admin/packages/{id}/publish": {
+      "patch": {
+        "description": "Changes package status to PUBLISHED making it visible on public endpoints.",
+        "operationId": "AdminPackagesController_publishPackage",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Package UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Package published successfully."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Package not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Publish package",
+        "tags": [
+          "Admin Packages"
+        ]
+      }
+    },
+    "/api/v1/admin/packages/{id}/archive": {
+      "patch": {
+        "description": "Changes package status to ARCHIVED removing it from active booking flows.",
+        "operationId": "AdminPackagesController_archivePackage",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Package UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Package archived successfully."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Package not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Archive package",
+        "tags": [
+          "Admin Packages"
+        ]
+      }
+    },
+    "/api/v1/admin/packages/{packageId}/tiers": {
+      "post": {
+        "description": "Creates a pricing tier and seat quota under the specified package.",
+        "operationId": "AdminPackagesController_createTier",
+        "parameters": [
+          {
+            "name": "packageId",
+            "required": true,
+            "in": "path",
+            "description": "Package UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTierDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Package tier created successfully."
+          },
+          "400": {
+            "description": "Bad request or quota invalid."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Package not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Create package tier",
+        "tags": [
+          "Admin Packages"
+        ]
+      }
+    },
+    "/api/v1/admin/tiers/{id}": {
+      "patch": {
+        "description": "Updates package tier price and quota with optimistic locking version check. Quota cannot be decreased below active seats.",
+        "operationId": "AdminTiersController_updateTier",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Tier UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTierDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Package tier updated successfully."
+          },
+          "400": {
+            "description": "Invalid quota (cannot be less than active seats)."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Tier not found."
+          },
+          "409": {
+            "description": "Version conflict - Tier modified by concurrent transaction."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update package tier",
+        "tags": [
+          "Admin Tiers"
+        ]
+      }
+    },
+    "/api/v1/bookings": {
+      "post": {
+        "description": "Creates a new booking holding seats with pessimistic locking, creates immutable price snapshots, and supports idempotency via Idempotency-Key header.",
+        "operationId": "BookingsController_createBooking",
+        "parameters": [
+          {
+            "name": "idempotency-key",
+            "required": false,
+            "in": "header",
+            "description": "Unique client request token for idempotent request processing",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBookingDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Booking created successfully with held seat reservations."
+          },
+          "400": {
+            "description": "Invalid booking data or insufficient tier quota."
+          },
+          "401": {
+            "description": "Unauthorized access."
+          },
+          "409": {
+            "description": "Seat allocation conflict."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Create a new booking",
+        "tags": [
+          "Bookings"
+        ]
+      },
+      "get": {
+        "description": "Retrieves bookings for authenticated user.",
+        "operationId": "BookingsController_getBookings",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "List of user bookings."
+          },
+          "401": {
+            "description": "Unauthorized access."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "List user bookings",
+        "tags": [
+          "Bookings"
+        ]
+      }
+    },
+    "/api/v1/bookings/me": {
+      "get": {
+        "description": "Retrieves all bookings belonging to the authenticated user.",
+        "operationId": "BookingsController_getMyBookings",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "List of user bookings retrieved successfully."
+          },
+          "401": {
+            "description": "Unauthorized access."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get current user bookings",
+        "tags": [
+          "Bookings"
+        ]
+      }
+    },
+    "/api/v1/bookings/{id}": {
+      "get": {
+        "description": "Retrieves booking by ID with ownership verification.",
+        "operationId": "BookingsController_getBooking",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "UUID of the booking",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Booking details retrieved."
+          },
+          "401": {
+            "description": "Unauthorized access."
+          },
+          "403": {
+            "description": "Forbidden - User does not own this booking."
+          },
+          "404": {
+            "description": "Booking not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get booking details by ID",
+        "tags": [
+          "Bookings"
+        ]
+      }
+    },
+    "/api/v1/bookings/{id}/cancel": {
+      "post": {
+        "description": "Cancels the booking and releases all associated held seat reservations.",
+        "operationId": "BookingsController_cancelBooking",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "UUID of the booking to cancel",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelBookingDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Booking cancelled successfully."
+          },
+          "400": {
+            "description": "Booking cannot be cancelled in current status."
+          },
+          "401": {
+            "description": "Unauthorized access."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Booking not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Cancel an entire booking",
+        "tags": [
+          "Bookings"
+        ]
+      }
+    },
+    "/api/v1/bookings/{bookingId}/pilgrims/{pilgrimId}/cancel": {
+      "post": {
+        "description": "Cancels an individual pilgrim from a group booking and decrements the seat count.",
+        "operationId": "BookingsController_cancelPilgrim",
+        "parameters": [
+          {
+            "name": "bookingId",
+            "required": true,
+            "in": "path",
+            "description": "UUID of the parent booking",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pilgrimId",
+            "required": true,
+            "in": "path",
+            "description": "UUID of the individual pilgrim to cancel",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelPilgrimDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Individual pilgrim cancelled successfully."
+          },
+          "400": {
+            "description": "Cannot cancel pilgrim in current state."
+          },
+          "401": {
+            "description": "Unauthorized access."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Booking or pilgrim not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Cancel an individual pilgrim in a booking",
+        "tags": [
+          "Bookings"
+        ]
+      }
+    },
+    "/api/v1/bookings/{bookingId}/installments": {
+      "get": {
+        "description": "Retrieves all generated installments and payment allocations for a given booking.",
+        "operationId": "InstallmentsController_getInstallments",
+        "parameters": [
+          {
+            "name": "bookingId",
+            "required": true,
+            "in": "path",
+            "description": "Booking UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Installment schedule retrieved successfully."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden - User does not own this booking."
+          },
+          "404": {
+            "description": "Booking not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get installment payment schedule",
+        "tags": [
+          "Installments"
+        ]
+      }
+    },
+    "/api/v1/payments/initiate": {
+      "post": {
+        "description": "Initializes a pending payment with an online gateway (e.g. SSLCommerz, bKash).",
+        "operationId": "PaymentsController_initiatePayment",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InitiatePaymentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Payment session created and gateway redirect URL generated."
+          },
+          "400": {
+            "description": "Invalid payment amount or booking not eligible for payment."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "404": {
+            "description": "Booking not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Initiate an online payment session",
+        "tags": [
+          "Payments"
+        ]
+      }
+    },
+    "/api/v1/payments/webhook/{provider}": {
+      "post": {
+        "description": "Server-to-server webhook endpoint verifying HMAC signatures, deduplicating event IDs, and transitioning payment/booking state.",
+        "operationId": "PaymentsController_handleWebhook",
+        "parameters": [
+          {
+            "name": "provider",
+            "required": true,
+            "in": "path",
+            "description": "Payment provider identifier (e.g. sslcommerz, bkash)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GatewayWebhookDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Webhook acknowledged and processed successfully."
+          },
+          "400": {
+            "description": "Invalid webhook payload or signature mismatch."
+          },
+          "409": {
+            "description": "Conflicting event state transition."
+          }
+        },
+        "summary": "Handle gateway webhook notification",
+        "tags": [
+          "Payments"
+        ]
+      }
+    },
+    "/api/v1/payments/manual": {
+      "post": {
+        "description": "Records a branch payment in PENDING status requiring Maker-Checker administrative approval.",
+        "operationId": "PaymentsController_recordManualPayment",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecordManualPaymentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Manual payment recorded in pending state."
+          },
+          "400": {
+            "description": "Bad request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Record manual bank or cash payment",
+        "tags": [
+          "Payments"
+        ]
+      }
+    },
+    "/api/v1/payments/{id}/approve": {
+      "post": {
+        "description": "Approves manual payment, allocates funds to oldest unpaid installments, and logs audit record. Strict rule: recorded_by != approved_by.",
+        "operationId": "PaymentsController_approvePayment",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Payment UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payment approved successfully."
+          },
+          "400": {
+            "description": "Payment already processed."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden - Maker cannot approve their own recorded payment."
+          },
+          "404": {
+            "description": "Payment not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Approve manual payment (Maker-Checker)",
+        "tags": [
+          "Payments"
+        ]
+      }
+    },
+    "/api/v1/payments/{id}/reject": {
+      "post": {
+        "description": "Rejects a pending manual payment record with reasons logged.",
+        "operationId": "PaymentsController_rejectPayment",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Payment UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "reason": {
+                    "type": "string",
+                    "example": "Bank receipt unverified"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Payment rejected."
+          },
+          "400": {
+            "description": "Bad request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Payment not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Reject manual payment",
+        "tags": [
+          "Payments"
+        ]
+      }
+    },
+    "/api/v1/payments/me": {
+      "get": {
+        "description": "Retrieves payment history across all bookings owned by current user.",
+        "operationId": "PaymentsController_getMyPayments",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Payment history returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get all payments for current user",
+        "tags": [
+          "Payments"
+        ]
+      }
+    },
+    "/api/v1/payments": {
+      "get": {
+        "description": "Retrieves payments for authenticated user.",
+        "operationId": "PaymentsController_getPayments",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Payment records returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "List user payments",
+        "tags": [
+          "Payments"
+        ]
+      }
+    },
+    "/api/v1/payments/booking/{bookingId}": {
+      "get": {
+        "description": "Retrieves all payment transactions associated with a booking with ownership enforcement.",
+        "operationId": "PaymentsController_getPaymentsByBooking",
+        "parameters": [
+          {
+            "name": "bookingId",
+            "required": true,
+            "in": "path",
+            "description": "Booking UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Booking payments returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Booking not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get payments for a specific booking",
+        "tags": [
+          "Payments"
+        ]
+      }
+    },
+    "/api/v1/payments/{id}": {
+      "get": {
+        "description": "Retrieves detailed payment transaction and installment allocation breakdown.",
+        "operationId": "PaymentsController_getPayment",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Payment UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payment details returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Payment not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get payment details by ID",
+        "tags": [
+          "Payments"
+        ]
+      }
+    },
+    "/api/v1/cancellations/request": {
+      "post": {
+        "description": "Creates a cancellation request and computes eligible refund subject to refund <= received payment constraint.",
+        "operationId": "CancellationsController_requestCancellation",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestCancellationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Cancellation request submitted in REQUESTED state."
+          },
+          "400": {
+            "description": "Invalid request or booking already cancelled."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Booking not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Request booking or pilgrim cancellation",
+        "tags": [
+          "Cancellations"
+        ]
+      }
+    },
+    "/api/v1/cancellations/{id}/approve": {
+      "post": {
+        "description": "Approves cancellation, releases seat quota back to available pool, transitions refund to APPROVED, and writes audit record.",
+        "operationId": "CancellationsController_approveCancellation",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Cancellation UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cancellation approved."
+          },
+          "400": {
+            "description": "Cancellation not in REQUESTED status."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Cancellation record not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Approve cancellation request (Admin)",
+        "tags": [
+          "Cancellations"
+        ]
+      }
+    },
+    "/api/v1/cancellations/{id}/reject": {
+      "post": {
+        "description": "Rejects cancellation and keeps booking/pilgrims active.",
+        "operationId": "CancellationsController_rejectCancellation",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Cancellation UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "reason": {
+                    "type": "string",
+                    "example": "Cancellation window closed"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cancellation rejected."
+          },
+          "400": {
+            "description": "Bad request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Cancellation record not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Reject cancellation request (Admin)",
+        "tags": [
+          "Cancellations"
+        ]
+      }
+    },
+    "/api/v1/cancellations/me": {
+      "get": {
+        "description": "Retrieves cancellation request history for the logged-in user.",
+        "operationId": "CancellationsController_getMyCancellations",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "User cancellations returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get all cancellations for current user",
+        "tags": [
+          "Cancellations"
+        ]
+      }
+    },
+    "/api/v1/cancellations": {
+      "get": {
+        "description": "Retrieves cancellations for authenticated user.",
+        "operationId": "CancellationsController_getCancellations",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Cancellations list returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "List user cancellations",
+        "tags": [
+          "Cancellations"
+        ]
+      }
+    },
+    "/api/v1/cancellations/booking/{bookingId}": {
+      "get": {
+        "description": "Retrieves all cancellation records associated with a booking.",
+        "operationId": "CancellationsController_getCancellationsByBooking",
+        "parameters": [
+          {
+            "name": "bookingId",
+            "required": true,
+            "in": "path",
+            "description": "Booking UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Booking cancellations returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Booking not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get cancellations for a specific booking",
+        "tags": [
+          "Cancellations"
+        ]
+      }
+    },
+    "/api/v1/cancellations/{id}": {
+      "get": {
+        "description": "Retrieves cancellation details with refund calculation and pilgrim snapshots.",
+        "operationId": "CancellationsController_getCancellation",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Cancellation UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cancellation details returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Cancellation not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get cancellation details by ID",
+        "tags": [
+          "Cancellations"
+        ]
+      }
+    },
+    "/api/v1/refunds/{id}/process": {
+      "post": {
+        "description": "Updates approved refund state (PROCESSING, COMPLETED, REJECTED) with bank/gateway reference and audit logging.",
+        "operationId": "RefundsController_processRefund",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Refund UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessRefundDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Refund updated successfully."
+          },
+          "400": {
+            "description": "Bad request or invalid status transition."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Refund record not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Process refund lifecycle (Admin)",
+        "tags": [
+          "Refunds"
+        ]
+      }
+    },
+    "/api/v1/refunds/me": {
+      "get": {
+        "description": "Retrieves refund history across all user bookings.",
+        "operationId": "RefundsController_getMyRefunds",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "User refunds returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get all refunds for current user",
+        "tags": [
+          "Refunds"
+        ]
+      }
+    },
+    "/api/v1/refunds": {
+      "get": {
+        "description": "Retrieves refunds for authenticated user.",
+        "operationId": "RefundsController_getRefunds",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Refunds list returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "List user refunds",
+        "tags": [
+          "Refunds"
+        ]
+      }
+    },
+    "/api/v1/refunds/{id}": {
+      "get": {
+        "description": "Retrieves refund record and transaction disbursement reference with ownership validation.",
+        "operationId": "RefundsController_getRefund",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Refund UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Refund details returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Refund not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get refund details by ID",
+        "tags": [
+          "Refunds"
+        ]
+      }
+    },
+    "/api/v1/reconciliation/batch": {
+      "post": {
+        "description": "Compares bank/gateway settlement records against internal payments, detecting exact matches or mismatches with zero silent mutations.",
+        "operationId": "ReconciliationController_reconcileBatch",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReconcileBatchDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Batch reconciled and reconciliation records stored."
+          },
+          "400": {
+            "description": "Bad request or empty batch."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Reconcile gateway settlement batch (Admin)",
+        "tags": [
+          "Reconciliation"
+        ]
+      }
+    },
+    "/api/v1/reconciliation/discrepancies": {
+      "get": {
+        "description": "Retrieves all records with status MISMATCH or UNDER_REVIEW.",
+        "operationId": "ReconciliationController_getDiscrepancies",
+        "parameters": [
+          {
+            "name": "provider",
+            "required": false,
+            "in": "query",
+            "description": "Filter by provider name",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of discrepancies returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get unresolved payment discrepancies (Admin)",
+        "tags": [
+          "Reconciliation"
+        ]
+      }
+    },
+    "/api/v1/reconciliation": {
+      "get": {
+        "description": "Retrieves history of all settlement reconciliations with provider/status filters.",
+        "operationId": "ReconciliationController_getAll",
+        "parameters": [
+          {
+            "name": "provider",
+            "required": false,
+            "in": "query",
+            "description": "Filter by provider",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "description": "Filter by status",
+            "schema": {
+              "enum": [
+                "MATCHED",
+                "MISMATCH",
+                "UNDER_REVIEW",
+                "RESOLVED"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Reconciliation records returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "List all reconciliation records (Admin)",
+        "tags": [
+          "Reconciliation"
+        ]
+      }
+    },
+    "/api/v1/reconciliation/{id}": {
+      "get": {
+        "description": "Retrieves single reconciliation record with internal payment link.",
+        "operationId": "ReconciliationController_getById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Reconciliation UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Record returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get reconciliation record by ID (Admin)",
+        "tags": [
+          "Reconciliation"
+        ]
+      }
+    },
+    "/api/v1/reconciliation/{id}/status": {
+      "patch": {
+        "description": "Marks discrepancy as UNDER_REVIEW or RESOLVED with mandatory justification notes and audit logging.",
+        "operationId": "ReconciliationController_updateStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Reconciliation UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResolveReconciliationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Status updated successfully."
+          },
+          "400": {
+            "description": "Invalid status transition."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Record not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update reconciliation dispute status (Admin)",
+        "tags": [
+          "Reconciliation"
+        ]
+      }
+    },
+    "/api/v1/vendors": {
+      "post": {
+        "description": "Registers a third-party vendor (Hotel, Airline, Transport, Visa agency).",
+        "operationId": "VendorsController_createVendor",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateVendorDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Vendor created successfully."
+          },
+          "400": {
+            "description": "Validation failed."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Create a new vendor (Admin)",
+        "tags": [
+          "Vendors & Expenses"
+        ]
+      },
+      "get": {
+        "description": "Retrieves all registered vendor partners.",
+        "operationId": "VendorsController_getAllVendors",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Vendors list returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "List all vendors (Admin)",
+        "tags": [
+          "Vendors & Expenses"
+        ]
+      }
+    },
+    "/api/v1/vendors/expenses/financial-summary": {
+      "get": {
+        "description": "Aggregates gross BDT collections from payments vs operational SAR/USD vendor expenses converted to BDT.",
+        "operationId": "VendorsController_getFinancialSummary",
+        "parameters": [
+          {
+            "name": "package_id",
+            "required": false,
+            "in": "query",
+            "description": "Filter financial summary by package UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Financial net summary returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get net margin and financial summary (Admin)",
+        "tags": [
+          "Vendors & Expenses"
+        ]
+      }
+    },
+    "/api/v1/vendors/expenses": {
+      "post": {
+        "description": "Records operational expense in SAR/USD with currency conversion rate stored.",
+        "operationId": "VendorsController_recordExpense",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateVendorExpenseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Vendor expense logged successfully."
+          },
+          "400": {
+            "description": "Bad request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Vendor not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Record vendor expense (Admin)",
+        "tags": [
+          "Vendors & Expenses"
+        ]
+      },
+      "get": {
+        "description": "Retrieves expense ledger records with vendor, package, and currency filters.",
+        "operationId": "VendorsController_getAllExpenses",
+        "parameters": [
+          {
+            "name": "vendor_id",
+            "required": false,
+            "in": "query",
+            "description": "Filter by vendor UUID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "package_id",
+            "required": false,
+            "in": "query",
+            "description": "Filter by package UUID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "currency",
+            "required": false,
+            "in": "query",
+            "description": "Filter by currency code",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Expense records returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "List all vendor expenses (Admin)",
+        "tags": [
+          "Vendors & Expenses"
+        ]
+      }
+    },
+    "/api/v1/vendors/{id}": {
+      "get": {
+        "description": "Retrieves vendor profile and expense audit history.",
+        "operationId": "VendorsController_getVendorById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Vendor UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vendor profile returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Vendor not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get vendor details by ID (Admin)",
+        "tags": [
+          "Vendors & Expenses"
+        ]
+      }
+    },
+    "/api/v1/inventory/items": {
+      "post": {
+        "description": "Registers a trackable physical item (Ihram, Luggage Bag, STC SIM card) with initial stock balance.",
+        "operationId": "InventoryController_createItem",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateInventoryItemDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Inventory item created successfully."
+          },
+          "400": {
+            "description": "Bad request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "409": {
+            "description": "Item with SKU already exists."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Create inventory item (Admin)",
+        "tags": [
+          "Inventory"
+        ]
+      },
+      "get": {
+        "description": "Retrieves all inventory items and current available stock balances.",
+        "operationId": "InventoryController_getAllItems",
+        "parameters": [
+          {
+            "name": "category",
+            "required": false,
+            "in": "query",
+            "description": "Filter by item category",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Items list returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "List all inventory items (Admin)",
+        "tags": [
+          "Inventory"
+        ]
+      }
+    },
+    "/api/v1/inventory/items/{id}": {
+      "get": {
+        "description": "Retrieves item details and chronological movement ledger.",
+        "operationId": "InventoryController_getItemById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Item UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Item details returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Item not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get item details and transaction history (Admin)",
+        "tags": [
+          "Inventory"
+        ]
+      }
+    },
+    "/api/v1/inventory/transactions": {
+      "post": {
+        "description": "Records stock in/out movement (PURCHASE, ISSUE, RETURN, ADJUSTMENT) with stock insufficiency validation.",
+        "operationId": "InventoryController_recordTransaction",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecordInventoryTransactionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Transaction recorded and stock updated."
+          },
+          "400": {
+            "description": "Insufficient stock or invalid input."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Item not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Record inventory stock transaction (Admin)",
+        "tags": [
+          "Inventory"
+        ]
+      },
+      "get": {
+        "description": "Retrieves complete inventory audit ledger with item, type, and booking filters.",
+        "operationId": "InventoryController_getAllTransactions",
+        "parameters": [
+          {
+            "name": "item_id",
+            "required": false,
+            "in": "query",
+            "description": "Filter by item UUID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "required": false,
+            "in": "query",
+            "description": "Filter by transaction type",
+            "schema": {
+              "enum": [
+                "PURCHASE",
+                "ISSUE",
+                "RETURN",
+                "ADJUSTMENT"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "booking_id",
+            "required": false,
+            "in": "query",
+            "description": "Filter by associated booking UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction ledger returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "List all inventory transactions (Admin)",
+        "tags": [
+          "Inventory"
+        ]
+      }
+    },
+    "/api/v1/audit-logs": {
+      "get": {
+        "description": "Retrieves chronological mutation audit records with actor, entity type, and action filters.",
+        "operationId": "AuditController_getAllLogs",
+        "parameters": [
+          {
+            "name": "actor_id",
+            "required": false,
+            "in": "query",
+            "description": "Filter by actor user UUID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "entity_type",
+            "required": false,
+            "in": "query",
+            "description": "Filter by entity type (e.g. Booking, Payment, VendorExpense)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "action",
+            "required": false,
+            "in": "query",
+            "description": "Filter by action name (e.g. CREATE, UPDATE, APPROVE)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Audit log records returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "List all audit mutation logs (Admin)",
+        "tags": [
+          "Audit Logs"
+        ]
+      }
+    },
+    "/api/v1/audit-logs/{id}": {
+      "get": {
+        "description": "Retrieves single audit record containing oldValue and newValue state diffs.",
+        "operationId": "AuditController_getLogById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Audit log UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Audit log details returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Audit log not found."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get audit log details by ID (Admin)",
+        "tags": [
+          "Audit Logs"
+        ]
+      }
+    },
+    "/api/v1/audit-logs/entity/{type}/{id}": {
+      "get": {
+        "description": "Retrieves full change and audit timeline for a specific entity type and ID.",
+        "operationId": "AuditController_getEntityLogs",
+        "parameters": [
+          {
+            "name": "type",
+            "required": true,
+            "in": "path",
+            "description": "Entity classification (e.g. Booking, Payment, Refund)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Entity UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Entity audit trail returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get entity audit trail (Admin)",
+        "tags": [
+          "Audit Logs"
+        ]
+      }
+    },
+    "/api/v1/reports/bookings": {
+      "get": {
+        "description": "Aggregates booking metrics grouped by status (HELD, CONFIRMED, CANCELLED), total pilgrims count, and active gross booked value.",
+        "operationId": "ReportsController_getBookingsSummary",
+        "parameters": [
+          {
+            "name": "package_id",
+            "required": false,
+            "in": "query",
+            "description": "Filter bookings summary by package UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Bookings summary metrics returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get bookings executive summary report (Admin)",
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/api/v1/reports/collections": {
+      "get": {
+        "description": "Detailed revenue breakdown comparing gateway collections vs manual collections across payment providers and methods.",
+        "operationId": "ReportsController_getCollectionsReport",
+        "parameters": [
+          {
+            "name": "provider",
+            "required": false,
+            "in": "query",
+            "description": "Filter by provider name (e.g. SSLCOMMERZ, BKASH, MANUAL)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Collections metrics returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get collections and revenue report (Admin)",
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/api/v1/reports/outstanding-installments": {
+      "get": {
+        "description": "Aggregates all unpaid, partial, and overdue installment balances to monitor credit default exposure.",
+        "operationId": "ReportsController_getOutstandingInstallmentsReport",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Outstanding installments metrics returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get outstanding and overdue installments report (Admin)",
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/api/v1/reports/refunds": {
+      "get": {
+        "description": "Aggregates refund amounts requested, approved, and completed.",
+        "operationId": "ReportsController_getRefundsReport",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "description": "Filter by refund status",
+            "schema": {
+              "enum": [
+                "REQUESTED",
+                "APPROVED",
+                "PROCESSING",
+                "COMPLETED",
+                "REJECTED"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Refunds report metrics returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get refunds and disbursements report (Admin)",
+        "tags": [
+          "Reports"
+        ]
+      }
+    },
+    "/api/v1/reports/seats": {
+      "get": {
+        "description": "Calculates total system quota, held seats, confirmed seats, available seats, and percentage occupancy rates.",
+        "operationId": "ReportsController_getSeatsReport",
+        "parameters": [
+          {
+            "name": "package_id",
+            "required": false,
+            "in": "query",
+            "description": "Filter seats report by package UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Seat occupancy metrics returned."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get seat quota and occupancy report (Admin)",
+        "tags": [
+          "Reports"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Hajj & Umrah Package Booking System API",
+    "description": "REST API documentation for Hajj & Umrah package booking, seat reservations, installments, payments, cancellations, and administration.",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "JWT-auth": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http",
+        "name": "Authorization",
+        "description": "Enter JWT token",
+        "in": "header"
+      }
+    },
+    "schemas": {
+      "RegisterDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Full name of the user",
+            "example": "Faishal",
+            "maxLength": 150
+          },
+          "email": {
+            "type": "string",
+            "description": "Unique email address",
+            "example": "user@example.com",
+            "maxLength": 255
+          },
+          "password": {
+            "type": "string",
+            "description": "Password (minimum 6 characters)",
+            "example": "password123",
+            "minLength": 6,
+            "maxLength": 100
+          },
+          "phone": {
+            "type": "string",
+            "description": "Contact phone number",
+            "example": "+8801700000000",
+            "maxLength": 30
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "password"
+        ]
+      },
+      "UserProfileDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
+          },
+          "name": {
+            "type": "string",
+            "example": "Faishal"
+          },
+          "email": {
+            "type": "string",
+            "example": "user@example.com"
+          },
+          "phone": {
+            "type": "object",
+            "example": "+8801700000000",
+            "nullable": true
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "USER",
+              "ADMIN",
+              "SUPER_ADMIN",
+              "AGENT"
+            ],
+            "example": "USER"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "SUSPENDED"
+            ],
+            "example": "ACTIVE"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "email",
+          "phone",
+          "role",
+          "status",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "AuthResponseDto": {
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "description": "JWT access token for authentication",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserProfileDto"
+          }
+        },
+        "required": [
+          "access_token",
+          "user"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User email address",
+            "example": "user@example.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "User password",
+            "example": "password123"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "CreatePackageDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the Hajj or Umrah package",
+            "example": "Executive Hajj Package 2026",
+            "maxLength": 200
+          },
+          "type": {
+            "type": "string",
+            "description": "Package type: HAJJ or UMRAH",
+            "example": "HAJJ",
+            "maxLength": 50
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed package description",
+            "example": "Includes 5-star hotel accommodations in Makkah and Madinah with full VIP transport."
+          },
+          "departure_date": {
+            "type": "string",
+            "description": "Scheduled departure date (YYYY-MM-DD)",
+            "example": "2026-06-01"
+          },
+          "booking_start_date": {
+            "type": "string",
+            "description": "Booking opening date (YYYY-MM-DD)",
+            "example": "2026-01-01"
+          },
+          "booking_end_date": {
+            "type": "string",
+            "description": "Booking closing date (YYYY-MM-DD)",
+            "example": "2026-05-15"
+          }
+        },
+        "required": [
+          "name",
+          "type",
+          "departure_date",
+          "booking_start_date",
+          "booking_end_date"
+        ]
+      },
+      "UpdatePackageDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Updated name of the package",
+            "example": "Executive Hajj Package 2026 - Updated",
+            "maxLength": 200
+          },
+          "type": {
+            "type": "string",
+            "description": "Updated package type: HAJJ or UMRAH",
+            "example": "HAJJ",
+            "maxLength": 50
+          },
+          "description": {
+            "type": "string",
+            "description": "Updated description",
+            "example": "Includes 5-star hotel accommodations."
+          },
+          "departure_date": {
+            "type": "string",
+            "description": "Updated departure date (YYYY-MM-DD)",
+            "example": "2026-06-05"
+          },
+          "booking_start_date": {
+            "type": "string",
+            "description": "Updated booking start date (YYYY-MM-DD)",
+            "example": "2026-01-05"
+          },
+          "booking_end_date": {
+            "type": "string",
+            "description": "Updated booking end date (YYYY-MM-DD)",
+            "example": "2026-05-20"
+          },
+          "version": {
+            "type": "number",
+            "description": "Current entity version for optimistic locking",
+            "example": 1,
+            "minimum": 1
+          }
+        },
+        "required": [
+          "version"
+        ]
+      },
+      "CreateTierDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the package tier (e.g. VIP, Economy, Standard)",
+            "example": "VIP Gold",
+            "maxLength": 50
+          },
+          "price": {
+            "type": "number",
+            "description": "Price per seat in BDT",
+            "example": 750000,
+            "minimum": 1
+          },
+          "quota": {
+            "type": "number",
+            "description": "Total seat capacity allocated to this tier",
+            "example": 50,
+            "minimum": 1
+          }
+        },
+        "required": [
+          "name",
+          "price",
+          "quota"
+        ]
+      },
+      "UpdateTierDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Updated name of the tier",
+            "example": "VIP Platinum",
+            "maxLength": 50
+          },
+          "price": {
+            "type": "number",
+            "description": "Updated seat price in BDT",
+            "example": 800000,
+            "minimum": 1
+          },
+          "quota": {
+            "type": "number",
+            "description": "Updated total quota (must not be lower than active held + confirmed seats)",
+            "example": 60,
+            "minimum": 1
+          },
+          "version": {
+            "type": "number",
+            "description": "Current entity version for optimistic locking",
+            "example": 1,
+            "minimum": 1
+          }
+        },
+        "required": [
+          "version"
+        ]
+      },
+      "CreatePilgrimDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Full name of the pilgrim",
+            "example": "Abdullah Khan",
+            "maxLength": 150
+          },
+          "passport_number": {
+            "type": "string",
+            "description": "Passport number of the pilgrim",
+            "example": "A12345678",
+            "maxLength": 100
+          },
+          "nationality": {
+            "type": "string",
+            "description": "Nationality of the pilgrim",
+            "example": "Bangladeshi",
+            "maxLength": 100
+          },
+          "date_of_birth": {
+            "type": "string",
+            "description": "Date of birth (YYYY-MM-DD)",
+            "example": "1985-06-15"
+          },
+          "passport_expiry": {
+            "type": "string",
+            "description": "Passport expiry date (YYYY-MM-DD)",
+            "example": "2030-01-01"
+          }
+        },
+        "required": [
+          "name",
+          "passport_number"
+        ]
+      },
+      "CreateBookingDto": {
+        "type": "object",
+        "properties": {
+          "tier_id": {
+            "type": "string",
+            "description": "UUID of the selected package tier",
+            "example": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
+          },
+          "payment_mode": {
+            "type": "string",
+            "description": "Payment mode: FULL or INSTALLMENT",
+            "enum": [
+              "FULL",
+              "INSTALLMENT"
+            ],
+            "example": "INSTALLMENT"
+          },
+          "pilgrims": {
+            "description": "List of pilgrims included in this booking",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreatePilgrimDto"
+            }
+          }
+        },
+        "required": [
+          "tier_id",
+          "payment_mode",
+          "pilgrims"
+        ]
+      },
+      "CancelBookingDto": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "description": "Reason for cancelling the booking",
+            "example": "Health emergency preventing travel"
+          }
+        }
+      },
+      "CancelPilgrimDto": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "description": "Reason for cancelling the individual pilgrim",
+            "example": "Visa application rejected"
+          }
+        }
+      },
+      "InitiatePaymentDto": {
+        "type": "object",
+        "properties": {
+          "booking_id": {
+            "type": "string",
+            "description": "UUID of the booking to pay for",
+            "example": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Payment amount in BDT",
+            "example": 50000,
+            "minimum": 1
+          },
+          "provider": {
+            "type": "string",
+            "description": "Gateway provider name (e.g. SSLCOMMERZ, BKASH, NAGAD, STRIPE)",
+            "example": "SSLCOMMERZ"
+          },
+          "method": {
+            "type": "string",
+            "description": "Payment method channel (e.g. CARD, WALLET, NET_BANKING)",
+            "example": "CARD"
+          }
+        },
+        "required": [
+          "booking_id",
+          "amount",
+          "provider"
+        ]
+      },
+      "GatewayWebhookDto": {
+        "type": "object",
+        "properties": {
+          "event_id": {
+            "type": "string",
+            "description": "Unique gateway notification or event identifier",
+            "example": "evt_987654321"
+          },
+          "transaction_id": {
+            "type": "string",
+            "description": "Gateway settlement transaction reference",
+            "example": "TRX_SSL_8839201"
+          },
+          "payment_id": {
+            "type": "string",
+            "description": "Internal payment record UUID",
+            "example": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
+          },
+          "booking_id": {
+            "type": "string",
+            "description": "Associated booking UUID",
+            "example": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a22"
+          },
+          "event_type": {
+            "type": "string",
+            "description": "Webhook event classification (e.g. payment.success, charge.failed)",
+            "example": "payment.success"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount successfully transacted in BDT",
+            "example": 50000,
+            "minimum": 1
+          },
+          "currency": {
+            "type": "string",
+            "description": "Transaction currency ISO code",
+            "example": "BDT"
+          },
+          "status": {
+            "type": "string",
+            "description": "Terminal payment status reported by gateway",
+            "enum": [
+              "PENDING",
+              "SUCCESS",
+              "FAILED",
+              "REFUNDED"
+            ],
+            "example": "SUCCESS"
+          },
+          "signature": {
+            "type": "string",
+            "description": "HMAC signature for webhook integrity verification",
+            "example": "sha256=d3b07384d113edec49eaa6238ad5ff00"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Arbitrary metadata payload delivered from gateway"
+          }
+        },
+        "required": [
+          "transaction_id",
+          "payment_id",
+          "amount",
+          "status"
+        ]
+      },
+      "RecordManualPaymentDto": {
+        "type": "object",
+        "properties": {
+          "booking_id": {
+            "type": "string",
+            "description": "UUID of the booking",
+            "example": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount received in BDT",
+            "example": 100000,
+            "minimum": 1
+          },
+          "method": {
+            "type": "string",
+            "description": "Manual collection method (e.g. CASH, BANK_TRANSFER, CHEQUE)",
+            "example": "BANK_TRANSFER"
+          },
+          "reference_number": {
+            "type": "string",
+            "description": "Bank slip or cheque reference number",
+            "example": "BANK-CHQ-987654"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Internal audit or verification notes",
+            "example": "Deposit confirmed at Sonali Bank Gulshan branch."
+          }
+        },
+        "required": [
+          "booking_id",
+          "amount",
+          "method"
+        ]
+      },
+      "RequestCancellationDto": {
+        "type": "object",
+        "properties": {
+          "booking_id": {
+            "type": "string",
+            "description": "UUID of the booking to cancel",
+            "example": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
+          },
+          "pilgrim_ids": {
+            "description": "Specific pilgrim UUIDs to cancel (omit for full booking cancellation)",
+            "example": [
+              "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "reason": {
+            "type": "string",
+            "description": "Reason for requesting cancellation",
+            "example": "Medical emergency prevents participation"
+          },
+          "cancellation_fee": {
+            "type": "number",
+            "description": "Optional admin cancellation penalty fee deducted from eligible refund",
+            "example": 5000,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "booking_id"
+        ]
+      },
+      "ProcessRefundDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "New refund state (PROCESSING, COMPLETED, or REJECTED)",
+            "enum": [
+              "REQUESTED",
+              "APPROVED",
+              "PROCESSING",
+              "COMPLETED",
+              "REJECTED"
+            ],
+            "example": "COMPLETED"
+          },
+          "transaction_reference": {
+            "type": "string",
+            "description": "Bank or gateway disbursement reference code",
+            "example": "BNK-REF-2026-9901"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Reason for rejection or processing note",
+            "example": "Disbursement transferred to customer account via BEFTN"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "SettlementItemDto": {
+        "type": "object",
+        "properties": {
+          "transaction_id": {
+            "type": "string",
+            "description": "Unique gateway transaction or settlement identifier",
+            "example": "TRX-BKASH-883921"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Settled amount reported by the gateway",
+            "example": 50000,
+            "minimum": 1
+          },
+          "currency": {
+            "type": "string",
+            "description": "Settlement currency ISO code",
+            "example": "BDT"
+          },
+          "settlement_date": {
+            "type": "string",
+            "description": "Date/time string of the settlement report",
+            "example": "2026-06-01T12:00:00Z"
+          }
+        },
+        "required": [
+          "transaction_id",
+          "amount"
+        ]
+      },
+      "ReconcileBatchDto": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "type": "string",
+            "description": "Gateway provider being reconciled (e.g. BKASH, SSLCOMMERZ, NAGAD)",
+            "example": "BKASH"
+          },
+          "settlements": {
+            "description": "Batch of settlement line items exported from payment provider",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SettlementItemDto"
+            }
+          }
+        },
+        "required": [
+          "provider",
+          "settlements"
+        ]
+      },
+      "ResolveReconciliationDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Updated investigation status (UNDER_REVIEW or RESOLVED)",
+            "enum": [
+              "MATCHED",
+              "MISMATCH",
+              "UNDER_REVIEW",
+              "RESOLVED"
+            ],
+            "example": "RESOLVED"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Investigation notes, resolution details, or adjustment justifications",
+            "example": "Discrepancy resolved: Gateway fee of 1.5% was deducted prior to settlement batching."
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "CreateVendorDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Corporate or trade name of the vendor",
+            "example": "Makkah Clock Royal Hotel Co."
+          },
+          "type": {
+            "type": "string",
+            "description": "Vendor operational category (HOTEL, TRANSPORT, AIRLINE, VISA, CATERING, OTHER)",
+            "example": "HOTEL"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Default billing currency code (e.g. SAR, USD, BDT)",
+            "example": "SAR",
+            "default": "SAR"
+          },
+          "contact_person": {
+            "type": "string",
+            "description": "Primary contact person or account representative",
+            "example": "Sheikh Tariq Al-Mansoor"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Vendor contact phone number",
+            "example": "+966125000000"
+          },
+          "email": {
+            "type": "string",
+            "description": "Vendor official email",
+            "example": "reservations@clockroyal.sa"
+          },
+          "address": {
+            "type": "string",
+            "description": "Vendor registered physical address",
+            "example": "Abraj Al Bait Complex, King Abdul Aziz Endowment, Makkah"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "CreateVendorExpenseDto": {
+        "type": "object",
+        "properties": {
+          "vendor_id": {
+            "type": "string",
+            "description": "UUID of the vendor associated with this expense",
+            "example": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
+          },
+          "package_id": {
+            "type": "string",
+            "description": "Optional package UUID if expense directly pertains to a package cohort",
+            "example": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a22"
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed description of the expense item",
+            "example": "50 VIP room bookings for 10 nights at Makkah Clock Royal Hotel"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Expense amount in original invoicing currency",
+            "example": 250000,
+            "minimum": 0.01
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency ISO code (e.g. SAR, USD, BDT)",
+            "example": "SAR"
+          },
+          "exchange_rate": {
+            "type": "number",
+            "description": "Foreign exchange rate against BDT (e.g. 32.50 for SAR -> BDT)",
+            "example": 32.5,
+            "default": 1
+          },
+          "payment_date": {
+            "type": "string",
+            "description": "Payment date (YYYY-MM-DD)",
+            "example": "2026-06-01"
+          },
+          "payment_reference": {
+            "type": "string",
+            "description": "Bank swift or remittance invoice reference",
+            "example": "SWIFT-SAR-998811"
+          }
+        },
+        "required": [
+          "vendor_id",
+          "description",
+          "amount",
+          "currency",
+          "payment_date"
+        ]
+      },
+      "CreateInventoryItemDto": {
+        "type": "object",
+        "properties": {
+          "sku": {
+            "type": "string",
+            "description": "Unique Stock Keeping Unit identifier (e.g. IHRAM-MALE, BAG-WHEEL, SIM-STC)",
+            "example": "IHRAM-MALE"
+          },
+          "name": {
+            "type": "string",
+            "description": "Item display name",
+            "example": "Premium Cotton Ihram Set (Male)"
+          },
+          "category": {
+            "type": "string",
+            "description": "Item category (e.g. APPAREL, LUGGAGE, TELECOM, OTHER)",
+            "example": "APPAREL"
+          },
+          "initial_stock": {
+            "type": "number",
+            "description": "Initial stock quantity to populate on creation",
+            "example": 500,
+            "default": 0,
+            "minimum": 0
+          },
+          "unit_cost": {
+            "type": "number",
+            "description": "Unit cost price in BDT",
+            "example": 2500,
+            "default": 0,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "sku",
+          "name"
+        ]
+      },
+      "RecordInventoryTransactionDto": {
+        "type": "object",
+        "properties": {
+          "item_id": {
+            "type": "string",
+            "description": "UUID of the inventory item",
+            "example": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
+          },
+          "type": {
+            "type": "string",
+            "description": "Transaction category: PURCHASE, ISSUE, RETURN, ADJUSTMENT",
+            "enum": [
+              "PURCHASE",
+              "ISSUE",
+              "RETURN",
+              "ADJUSTMENT"
+            ],
+            "example": "ISSUE"
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Quantity of items in this transaction",
+            "example": 2,
+            "minimum": 1
+          },
+          "booking_id": {
+            "type": "string",
+            "description": "Associated booking UUID (required for ISSUE transactions to pilgrims)",
+            "example": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a22"
+          },
+          "pilgrim_id": {
+            "type": "string",
+            "description": "Associated individual pilgrim UUID",
+            "example": "c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a33"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Operational notes or distribution comments",
+            "example": "Issued during orientation session at Dhaka office"
+          }
+        },
+        "required": [
+          "item_id",
+          "type",
+          "quantity"
+        ]
+      }
+    }
+  }
+}

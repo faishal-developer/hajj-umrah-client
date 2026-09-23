@@ -1,0 +1,56 @@
+{
+  "08_SCHEMA.sql": {
+    "mtime": 1790069070.6600406,
+    "seen": 1790144094.331635,
+    "ast_hash": "c469f3819379f55b861fc48af0edcd58",
+    "semantic_hash": "c469f3819379f55b861fc48af0edcd58"
+  },
+  "01_PROJECT_SPECIFICATION.md": {
+    "mtime": 1790069101.2375655,
+    "seen": 1790144094.3316464,
+    "ast_hash": "cae3bb784dccb4f3f48b108e40a3d202",
+    "semantic_hash": "cae3bb784dccb4f3f48b108e40a3d202"
+  },
+  "02_DATABASE_ERD.md": {
+    "mtime": 1790069104.0634701,
+    "seen": 1790144094.3316517,
+    "ast_hash": "df498ee185dc02e9c108776ce2321017",
+    "semantic_hash": "df498ee185dc02e9c108776ce2321017"
+  },
+  "03_SYSTEM_DESIGN.md": {
+    "mtime": 1790069055.0268538,
+    "seen": 1790144094.331655,
+    "ast_hash": "03a971f8a9d0f8aa074a0c46838588a2",
+    "semantic_hash": "03a971f8a9d0f8aa074a0c46838588a2"
+  },
+  "05_USER_FRONTEND_AGENT_GUIDE.md": {
+    "mtime": 1790069089.452437,
+    "seen": 1790144094.3316581,
+    "ast_hash": "741393d48733ddc5dc5682d7d5ec55a6",
+    "semantic_hash": "741393d48733ddc5dc5682d7d5ec55a6"
+  },
+  "07_API_SPECIFICATION.md": {
+    "mtime": 1790069079.8522782,
+    "seen": 1790144094.3316612,
+    "ast_hash": "38bd1e24334741078c0769c10f48792b",
+    "semantic_hash": "38bd1e24334741078c0769c10f48792b"
+  },
+  "09_README.md": {
+    "mtime": 1790069060.7234526,
+    "seen": 1790144094.3316643,
+    "ast_hash": "fc27027d3da4da6219f93f3d7e76c147",
+    "semantic_hash": "fc27027d3da4da6219f93f3d7e76c147"
+  },
+  "10_SUMMARY.md": {
+    "mtime": 1790069059.9732966,
+    "seen": 1790144094.331667,
+    "ast_hash": "abf2951d0e1aa0ec25447551f849ab11",
+    "semantic_hash": "abf2951d0e1aa0ec25447551f849ab11"
+  },
+  "CLIENT_FRONTEND_GUIDE.md": {
+    "mtime": 1790141409.9528615,
+    "seen": 1790144094.3316698,
+    "ast_hash": "582338b10128c81efa33cbb9b387dbaa",
+    "semantic_hash": "582338b10128c81efa33cbb9b387dbaa"
+  }
+}
